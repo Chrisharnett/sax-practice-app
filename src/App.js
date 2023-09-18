@@ -34,6 +34,9 @@ function Home() {
             <li class="nav-item">
               <Link to="/studentSignIn" className="nav-link">Student Sign-in</Link>
             </li>
+            <li class="nav-item">
+              <Link to="/exerciseList" className="nav-link">Exercise List</Link>
+            </li>
           </ul>
         </div>
       </nav>
@@ -109,7 +112,7 @@ export function Student() {
             {currentExercise && (
               <div>
                 <CurrentExercise exercise={ currentExercise } />
-                <button onClick={handleNextExercise}>Next Exercise</button>
+                <button onClick={handleNextExercise} className="btn btn-primary">Next Exercise</button>
               </div>
             )}
             
@@ -120,12 +123,31 @@ export function Student() {
     if (currentRound === rounds) {
       return (
         <div>
-          <nav>
-            <Link to="/teacher">Teacher</Link>
-            <Link to="/studentSignIn">Student Sign-in</Link>
-            <Link to="/exerciseList">Full Exercise List</Link>
-          </nav>
-          <h1>Today's Routine is Complete</h1>
+          {/* Collapsed navbar menu doesn't expand!! */}
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+        <a class="navbar-brand" href="/">Harnett Music Studio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+            <Link to="/" className="nav-link">Home</Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/teacher" className="nav-link">Teacher</Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/studentSignIn" className="nav-link">Student Sign-in</Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/exerciseList" className="nav-link">Exercise List</Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+          <h1>Great job, today's routine is complete</h1>
         </div>
       )
   }
@@ -147,10 +169,29 @@ export function StudentSignIn() {
 
   return (
     <div>
-      <nav>
-        <Link to="/teacher">Teacher</Link>
-        <Link to="/studentSignIn">Student Sign-in</Link>
-        <Link to="/exercises">Full Exercise List</Link>
+      {/* Collapsed navbar menu doesn't expand!! */}
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+        <a class="navbar-brand" href="/">Harnett Music Studio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+            <Link to="/" className="nav-link">Home</Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/teacher" className="nav-link">Teacher</Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/studentSignIn" className="nav-link">Student Sign-in<span class="sr-only">(current)</span></Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/exerciseList" className="nav-link">Exercise List</Link>
+            </li>
+          </ul>
+        </div>
       </nav>
       <h1>Select student</h1>
       <select value={ currentStudent } onChange={handleStudentChange}>
@@ -163,10 +204,9 @@ export function StudentSignIn() {
       </select>
       <button onClick={() => {
         handleStartRoutine()
-      }}>Start Routine</button>
+      }} className="btn btn-Success">Start Routine</button>
     </div>
   )};
-
 
 export function Teacher() {
   const [data, setData] = useState(null);
@@ -225,33 +265,57 @@ export function Teacher() {
   if(data) 
     return (
       <div>
-        <nav>
-          <Link to="/studentSignIn">Student Sign-in</Link>
-          <Link to="/exerciseList">Full Exercise List</Link>
+        {/* Collapsed navbar menu doesn't expand!! */}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+          <a class="navbar-brand" href="/">Harnett Music Studio</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+              <Link to="/" className="nav-link">Home</Link>
+              </li>
+              <li class="nav-item">
+                <Link to="/teacher" className="nav-link">Teacher<span class="sr-only">(current)</span></Link>
+              </li>
+              <li class="nav-item">
+                <Link to="/studentSignIn" className="nav-link">Student Sign-in</Link>
+              </li>
+              <li class="nav-item">
+                <Link to="/exerciseList" className="nav-link">Exercise List</Link>
+              </li>
+            </ul>
+          </div>
         </nav>
         <h1>Student Routines</h1>
         <h2>Current Routines</h2>
         <h3>Student List</h3>
-          <select value={ currentStudent } onChange={ handleStudentChange }>
-          <option key="n/a" />
-          {studentRoutines.map((routine, index) => (
-          <option key={ routine.student }>
-            {routine.student}
-          </option>
-        ))}
-      </select>
-          <button onClick={ clearRoutine }>Clear Student</button>
+          <div className="inline-flex">
+            <select value={ currentStudent } onChange={ handleStudentChange }>
+              <option key="n/a" />
+              {studentRoutines.map((routine, index) => (
+              <option key={ routine.student }>
+                {routine.student}
+              </option>
+              ))}
+            </select>
+            <button onClick={ clearRoutine } className="btn btn-danger m-2">Clear Student</button>
+          </div>
         <h2>Routine Builder</h2>
         <form onSubmit={ submit }>
-          <input
-            value={ student }
-            onChange={(event) =>
-              setStudent(event.target.value)}
-            type="text"
-            placeholder="Enter Student Name"
-            id="student">
-          </input>
-          {/* <Routines studentRoutines = { routines } /> */}
+          <div className="inline">
+            <input
+              value={ student }
+              key={ student }
+              onChange={(event) =>
+                setStudent(event.target.value)}
+              type="text"
+              placeholder="Enter Student Name"
+              id="student">
+            </input>
+          </div>          
           <div id="exerciseSelector">
             <ExSelection exList={ data } routineList = { routineList } />
           </div>
@@ -259,6 +323,7 @@ export function Teacher() {
       </div>
     )
 };
+
 
 export function Exercises() {
   const [exercises, setExercises] = useState(null)
@@ -271,17 +336,35 @@ export function Exercises() {
     if (exercises)
       return (
         <div>
-          <nav>
-            <Link to="/teacher">Teacher</Link>
-            <Link to="/studentSignIn">Student Sign-in</Link>
-            <Link to="/exerciseList">Full Exercise List</Link>
-          </nav>
+          <div>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+              <a class="navbar-brand" href="/">Harnett Music Studio</a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+          
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active">
+                  <Link to="/" className="nav-link">Home</Link>
+                  </li>
+                  <li class="nav-item">
+                    <Link to="/teacher" className="nav-link">Teacher</Link>
+                  </li>
+                  <li class="nav-item">
+                    <Link to="/studentSignIn" className="nav-link">Student Sign-in</Link>
+                  </li>
+                  <li class="nav-item">
+                    <Link to="/exerciseList" className="nav-link">Exercise List<span class="sr-only">(current)</span></Link>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>        
           <h1>Exercise List</h1>
           <ExerciseList exList={ exercises } />
         </div>
       )};
-
-
 
 export function App() {
 

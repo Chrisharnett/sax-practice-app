@@ -44,10 +44,11 @@ export function ExSelection( {exList, routineList} ) {
             </div>
             <button onClick={() => {
                 routineList(checked
-                )}}>Create Routine</button>
+                )}} className="btn btn-primary m-3">Create Routine
+            </button>
             <div className="list-container">
                 {exList.map((ex, index) => (
-                    <div key={index}>
+                    <div key={index} className="form-check form-check-inline">
                         <input id={ index } value={ index } type="checkbox" onChange={handleCheck} />
                         <h4 className={isChecked(ex.title)}>{ ex.title } </h4>
                         <img src={ ex.imageURL } alt={ ex.description } height= { 50 }></img>
@@ -81,7 +82,7 @@ export function Routines({ studentRoutines }) {
 function Exercise( props ) {
     return (
         <>
-            <h1>{ props.title }</h1>
+            <h4>{ props.title }</h4>
             <img src={ props.src } alt={ props.descriptin } height={ props.height }></img>
             <p>{ props.description }</p>
         </>
