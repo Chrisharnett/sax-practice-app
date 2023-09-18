@@ -1,83 +1,286 @@
 import './App.css';
-import { useState, useEffect } from 'react'
-import { Link } from "react-router-dom"
-import { CurrentExercise, ExerciseList } from './exercise';
+import { useState, useEffect} from 'react'
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { CurrentExercise, ExSelection, ExerciseList } from './exercise';
 
-let json = 'https://practiceroutine.s3.us-east-1.amazonaws.com/exerciseJSON.json?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHQaCXVzLWVhc3QtMSJHMEUCIQDkstmYpuynxdnXUuRqjQkfKWArC%2BaiHVwLOpgW7PTFuQIgNTyceWUG1cEKeHiOkjc4kBx0HeXBVtJWcdxzTcuEQyoq6AIIXRAAGgw0NDEyODE0NTI4ODAiDJfdBgoVAjAVayYt6yrFAtV5ALfiTCsJWeJ8f1%2Fm87dCtlwcMdYrsRF9hAcehZ2YnuvAvdBTWebhP9Fim78HQSFIwKIxdA4T0bbDJTiK30jxIKIx1DOZ%2FLYPA4uk%2FpmRu5B%2Bz%2FidYuHPb2y9aBVjeJ0BupkoL8AdeBzZu7jTfnxxQbWyYLmbOzXhq1bHRui6V6Ary3CmZG9gFD4UsmK%2FsNrsw7umC%2BIn%2F8u2RBX21K5h%2BqM2RyCLUB%2B6swuoa3jO3TGQBs6VWmozvedBCNq9Sz4Jzt8uhk1AAlTj%2FPf4GioMrRBgxkjjA%2F5Xm9bxT3kf12MRP4AxoqpVykuPEpRkkwYMkupydwJX7FAA4MwfBPT2LmLACY6DOQHI7t06VY1athrXWboPAkQS%2F2t3JMMxRuHGNSJ9XAg8DDAEJ10u5QCGzENQxTw9JfYMwKSy2n2z67GcOGwwooiRqAY6swJFd31t8pxZo71ZizEOMPbF8g3zjV2FM5Muvd5Q3D4JBTnI7wMn%2BQuHEmcQjL%2FAnvlSb%2FH3p5EwmKt73kc88HPpqXEIw27eJItWv0jnKY6vKvRd2%2BkdXckRp6i23o31lXvzUIi0s4wGhHxyxEC2HZCRrQwyC53lWq%2Fw7TdYFWG2ARKc%2FAiTaQnO%2FIK4hgpJT7qcmr8ti3MRCXNcu%2FerzhJv6FHdOtRCPta8EdaRO9djYuuANSRzS0Fd8jlmAii9laC0foV8LaRQ1MJA2mIcj5hMtvIPm5vZopKPmiWaHRxQi7gNI3fcjf%2B7yySyUNLs0Bb4ussxk0DBxKlo%2BvhRSj2m9VtyHiJRmWcEXUF%2BScTPVycu7EAKc7nH%2BEZeO25dgtI1%2BQbWw1faNI0XpA78EoDYkMW0&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230915T162220Z&X-Amz-SignedHeaders=host&X-Amz-Expires=43200&X-Amz-Credential=ASIAWNPTMTNIIAVLHCNJ%2F20230915%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=d836eecfd0164b11b458884cd5bb5452c14362f5e856f3e166cf59eaf4fe0354'
-let directJSON = 'https://mysaxpracticeexercisebucket.s3.amazonaws.com/exerciseJSON.json'
-let localJSON = 'exerciseJSON.json'
-let exerciseIndex = 0
+// let directJSON = 'https://mysaxpracticeexercisebucket.s3.amazonaws.com/exerciseJSON.json'
+// let localJSON = 'exerciseJSON.json'
 
+let studentRoutines=[];
+const storedData = localStorage.getItem("studentRoutines");
+if (storedData) {
+  studentRoutines=JSON.parse(storedData)
+}
+
+// TODO: CSS
 function Home() {
   return (
     <div>
-      <nav>
-        <Link to="/teacher">Teacher</Link>
-        <Link to="/student">Student</Link>
+      {/* Collapsed navbar menu doesn't expand!! */}
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+        <a class="navbar-brand" href="/">Harnett Music Studio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+            <Link to="/" className="nav-link">Home<span class="sr-only">(current)</span></Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/teacher" className="nav-link">Teacher</Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/studentSignIn" className="nav-link">Student Sign-in</Link>
+            </li>
+          </ul>
+        </div>
       </nav>
-      <h1>Home & sign in page</h1>
+      <h1>Home</h1>
+      <p>Please note. A teacher must first create a routine for a student before they can sign in</p>
     </div>
   )
 };
 
 export function Student() {
-  const [data, setData] = useState(null);
-  const [routine, setRoutine] = useState([1,2,3])
-
-  useEffect(() => {
-     fetch(
-      localJSON
-    ).then((response) => response.json())
-    .then(setData);
-  }, []);
-
-  let thisRoutine = [];
-
-  if(data){
-    for (let i in routine){
-      thisRoutine.push(data[i])
+  const location = useLocation();
+  const { currentStudent } = location.state
+  const [routine, setRoutine] = useState(null)
+  const [rounds, setrounds] = useState(4)
+  const [currentRound, setCurrentRounds]= useState(0)
+  const [count, setCount] = useState(0)  
+  const [currentExercise, setCurrentExercise] = useState(null)
+  const [exerciseCount, setExerciseCount] = useState(1)
+  
+  // Randomize a round of exercises with Fisher-Yates algorithm.
+  //  Add logic to prevent the same exercise happening twice in a row.
+  const shuffleExercises = (exercises) => {
+    for(let i=exercises.length -1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i+1))
+      const temp = exercises[i];
+      exercises[i] = exercises[j];
+      exercises[j]=temp;
     }
-    
-  }     
-    return (
-      <div>
-        <nav>
-        <Link to="/teacher">Teacher</Link>
-        <Link to="/student">Student</Link>
-        </nav>
-        <h1>Student View</h1>        
-        < CurrentExercise ex={ thisRoutine }/>
-        <button onClick="">Next Exercise</button>            
-      </div>
-    )
-    // exerciseIndex ++;
+    return exercises
+  }
+  useEffect(() => {
+    const studentRoutine = studentRoutines.find((r) =>r.student === currentStudent);
+    if (studentRoutine) {
+      setRoutine(studentRoutine.routine);
+      setCurrentExercise(studentRoutine.routine[0]);
+    }
+  }, [currentStudent]);
+  
+  useEffect(() => {
+    if (routine && currentRound < rounds){
+      let thisRound = [];
+      if (currentRound === 0){
+        thisRound = routine;
+      } else {
+        for (let i=0; i < routine.length; i++){
+          thisRound.push(routine[i]);
+        }
+        thisRound = shuffleExercises(thisRound);
+        // Add the to the rountine with setRoutine
+        setRoutine(thisRound);
+      } 
+  }}, [routine, count, rounds, currentRound]);
 
+  const handleNextExercise = () => {
+    if (count < routine.length - 1) {
+      setCount(count + 1);
+      setExerciseCount(exerciseCount + 1)
+      setCurrentExercise(routine[count + 1]);
+    }
+    else {
+      setCurrentRounds(currentRound + 1);
+      setCount(0);
+      setCurrentExercise(routine[0]);
+      setExerciseCount(exerciseCount + 1)
+    };
+  }
+    if (routine && currentRound < rounds) {
+      if (routine){
+        return (
+          <div>
+            <h1>{ currentStudent }'s exercise page</h1>
+            <h2>Exercise { exerciseCount } of { routine.length * rounds }</h2>
+            {currentExercise && (
+              <div>
+                <CurrentExercise exercise={ currentExercise } />
+                <button onClick={handleNextExercise}>Next Exercise</button>
+              </div>
+            )}
+            
+          </div>
+        );
+      } 
+    };    
+    if (currentRound === rounds) {
+      return (
+        <div>
+          <nav>
+            <Link to="/teacher">Teacher</Link>
+            <Link to="/studentSignIn">Student Sign-in</Link>
+            <Link to="/exerciseList">Full Exercise List</Link>
+          </nav>
+          <h1>Today's Routine is Complete</h1>
+        </div>
+      )
+  }
 };
+
+export function StudentSignIn() {
+  const [currentStudent, setCurrentStudent] = useState("Horatio")
+  const navigate = useNavigate();
+
+  const handleStartRoutine = () => {
+    navigate("/student", {
+      state: { currentStudent: currentStudent }
+    });
+  };
+
+  const handleStudentChange= (event) => {
+    setCurrentStudent(event.target.value);
+  };
+
+  return (
+    <div>
+      <nav>
+        <Link to="/teacher">Teacher</Link>
+        <Link to="/studentSignIn">Student Sign-in</Link>
+        <Link to="/exercises">Full Exercise List</Link>
+      </nav>
+      <h1>Select student</h1>
+      <select value={ currentStudent } onChange={handleStudentChange}>
+          <option key="n/a" />
+        {studentRoutines.map((routine, index) => (
+            <option key={ routine.student }>
+              {routine.student}
+            </option>
+        ))}
+      </select>
+      <button onClick={() => {
+        handleStartRoutine()
+      }}>Start Routine</button>
+    </div>
+  )};
+
 
 export function Teacher() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
      fetch(
-      // json
       'exerciseJSON.json'
-      // 'https://mysaxpracticeexercisebucket.s3.amazonaws.com/exerciseJSON.json'
     ).then(response => response.json())
     .then(setData);
   }, []);
+
+  const [student, setStudent] = useState("");
+  const [currentStudent, setCurrentStudent] = useState("Horatio")
+  const [routine, setRoutine] = useState(null);
+  const [routines, setRoutines] = useState(studentRoutines);
+    useEffect(() => {
+      setRoutines(studentRoutines);
+    }, []);
+
+  const routineList = (newRoutine) => {
+    let exList = [];
+    for (let i of newRoutine){  
+      exList.push(data[i]);
+    }
+    setRoutine(exList);
+    let updatedRoutines = [...routines, { student, routine: exList }];    
+    studentRoutines = updatedRoutines;    
+    localStorage.setItem('studentRoutines', JSON.stringify(studentRoutines));
+    setRoutines(updatedRoutines);
+    submit();
+  };
+
+  const clearRoutine = () => {
+    let updatedRoutines = routines.filter((routine) => {
+      if(routine.student !== currentStudent) {
+        return routine
+      }
+    })
+    setRoutines(updatedRoutines)
+    studentRoutines = updatedRoutines
+    localStorage.setItem('studentRoutines', JSON.stringify(studentRoutines));
+  }
+
+  const submit = (e) => {
+    // e.preventDefault(); Mentioned in LinkedIn video. HAS BEEN CAUSING ERRORS
+    if (student && routine) {
+      setStudent("");
+      setRoutine(null);
+    }
+  };
+
+  const handleStudentChange= (event) => {
+    setCurrentStudent(event.target.value);
+  };
 
   if(data) 
     return (
       <div>
         <nav>
-          <Link to="/teacher">Teacher</Link>
-          <Link to="/student">Student</Link>
+          <Link to="/studentSignIn">Student Sign-in</Link>
+          <Link to="/exerciseList">Full Exercise List</Link>
         </nav>
-        <h1>Exercise List</h1>
-        <ExerciseList exList={ data } />
+        <h1>Student Routines</h1>
+        <h2>Current Routines</h2>
+        <h3>Student List</h3>
+          <select value={ currentStudent } onChange={ handleStudentChange }>
+          <option key="n/a" />
+          {studentRoutines.map((routine, index) => (
+          <option key={ routine.student }>
+            {routine.student}
+          </option>
+        ))}
+      </select>
+          <button onClick={ clearRoutine }>Clear Student</button>
+        <h2>Routine Builder</h2>
+        <form onSubmit={ submit }>
+          <input
+            value={ student }
+            onChange={(event) =>
+              setStudent(event.target.value)}
+            type="text"
+            placeholder="Enter Student Name"
+            id="student">
+          </input>
+          {/* <Routines studentRoutines = { routines } /> */}
+          <div id="exerciseSelector">
+            <ExSelection exList={ data } routineList = { routineList } />
+          </div>
+        </form>
       </div>
     )
 };
+
+export function Exercises() {
+  const [exercises, setExercises] = useState(null)
+    useEffect(() => {
+      fetch(
+      'exerciseJSON.json'
+    ).then(response => response.json())
+    .then(setExercises);
+    }, []);
+    if (exercises)
+      return (
+        <div>
+          <nav>
+            <Link to="/teacher">Teacher</Link>
+            <Link to="/studentSignIn">Student Sign-in</Link>
+            <Link to="/exerciseList">Full Exercise List</Link>
+          </nav>
+          <h1>Exercise List</h1>
+          <ExerciseList exList={ exercises } />
+        </div>
+      )};
+
 
 
 export function App() {

@@ -1,7 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.css'
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { App, Student, Teacher } from './App';
+import { App, Student, Teacher, StudentSignIn, Exercises } from './App';
 import reportWebVitals from './reportWebVitals';
 import { 
   BrowserRouter, 
@@ -15,6 +16,8 @@ root.render(
     <Route path="/" element={<App />} />
     <Route path="/student" element={<Student />} />
     <Route path="/teacher" element={<Teacher />} />
+    <Route path="/studentSignIn" element={<StudentSignIn />} />
+    <Route path="/exerciseList" element={<Exercises />} />
   </Routes>
     
   </BrowserRouter>,
