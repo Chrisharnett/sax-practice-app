@@ -1,6 +1,13 @@
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown'
 import './App.css';
-import { useState, useEffect} from 'react'
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useState, useEffect} from 'react';
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CurrentExercise, ExSelection, ExerciseList } from './exercise';
 
 // let directJSON = 'https://mysaxpracticeexercisebucket.s3.amazonaws.com/exerciseJSON.json'
@@ -16,34 +23,29 @@ if (storedData) {
 function Home() {
   return (
     <div>
-      {/* Collapsed navbar menu doesn't expand!! */}
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
-        <a class="navbar-brand" href="/">Harnett Music Studio</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-            <Link to="/" className="nav-link">Home<span class="sr-only">(current)</span></Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/teacher" className="nav-link">Teacher</Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/studentSignIn" className="nav-link">Student Sign-in</Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/exerciseList" className="nav-link">Exercise List</Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <Navigation></Navigation>
       <h1>Home</h1>
       <p>Please note. A teacher must first create a routine for a student before they can sign in</p>
     </div>
   )
+};
+
+function Navigation() {
+  return (
+    <Navbar expand="lg" className="navbar-dark bg-dark p-2">
+        <Container>
+          <Navbar.Brand href="/">Harnett Music Studio</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="/teacher">Teacher</Nav.Link>
+              <Nav.Link href="/studentSignIn">Student Sign-In</Nav.Link>
+              <Nav.Link href="/exerciseList">Exercise List</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+  );
 };
 
 export function Student() {
@@ -123,30 +125,7 @@ export function Student() {
     if (currentRound === rounds) {
       return (
         <div>
-          {/* Collapsed navbar menu doesn't expand!! */}
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
-        <a class="navbar-brand" href="/">Harnett Music Studio</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-            <Link to="/" className="nav-link">Home</Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/teacher" className="nav-link">Teacher</Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/studentSignIn" className="nav-link">Student Sign-in</Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/exerciseList" className="nav-link">Exercise List</Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+          <Navigation></Navigation>
           <h1>Great job, today's routine is complete</h1>
         </div>
       )
@@ -169,30 +148,7 @@ export function StudentSignIn() {
 
   return (
     <div>
-      {/* Collapsed navbar menu doesn't expand!! */}
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
-        <a class="navbar-brand" href="/">Harnett Music Studio</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-            <Link to="/" className="nav-link">Home</Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/teacher" className="nav-link">Teacher</Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/studentSignIn" className="nav-link">Student Sign-in<span class="sr-only">(current)</span></Link>
-            </li>
-            <li class="nav-item">
-              <Link to="/exerciseList" className="nav-link">Exercise List</Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <Navigation></Navigation>
       <h1>Select student</h1>
       <select value={ currentStudent } onChange={handleStudentChange}>
           <option key="n/a" />
@@ -202,14 +158,18 @@ export function StudentSignIn() {
             </option>
         ))}
       </select>
-      <button onClick={() => {
+      <Button onClick={() => {
         handleStartRoutine()
-      }} className="btn btn-Success">Start Routine</button>
+      }} variant="primary" className="m-2">Start Routine</Button>
     </div>
   )};
 
 export function Teacher() {
   const [data, setData] = useState(null);
+  const [student, setStudent] = useState("");
+  const [currentStudent, setCurrentStudent] = useState("Horatio")
+  const [routine, setRoutine] = useState(null);
+  const [routines, setRoutines] = useState(studentRoutines);
 
   useEffect(() => {
      fetch(
@@ -218,10 +178,7 @@ export function Teacher() {
     .then(setData);
   }, []);
 
-  const [student, setStudent] = useState("");
-  const [currentStudent, setCurrentStudent] = useState("Horatio")
-  const [routine, setRoutine] = useState(null);
-  const [routines, setRoutines] = useState(studentRoutines);
+  
     useEffect(() => {
       setRoutines(studentRoutines);
     }, []);
@@ -265,61 +222,42 @@ export function Teacher() {
   if(data) 
     return (
       <div>
-        {/* Collapsed navbar menu doesn't expand!! */}
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
-          <a class="navbar-brand" href="/">Harnett Music Studio</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-              <Link to="/" className="nav-link">Home</Link>
-              </li>
-              <li class="nav-item">
-                <Link to="/teacher" className="nav-link">Teacher<span class="sr-only">(current)</span></Link>
-              </li>
-              <li class="nav-item">
-                <Link to="/studentSignIn" className="nav-link">Student Sign-in</Link>
-              </li>
-              <li class="nav-item">
-                <Link to="/exerciseList" className="nav-link">Exercise List</Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Navigation></Navigation>
         <h1>Student Routines</h1>
-        <h2>Current Routines</h2>
-        <h3>Student List</h3>
-          <div className="inline-flex">
-            <select value={ currentStudent } onChange={ handleStudentChange }>
-              <option key="n/a" />
-              {studentRoutines.map((routine, index) => (
-              <option key={ routine.student }>
-                {routine.student}
-              </option>
-              ))}
-            </select>
-            <button onClick={ clearRoutine } className="btn btn-danger m-2">Clear Student</button>
-          </div>
-        <h2>Routine Builder</h2>
-        <form onSubmit={ submit }>
-          <div className="inline">
-            <input
-              value={ student }
-              key={ student }
-              onChange={(event) =>
-                setStudent(event.target.value)}
-              type="text"
-              placeholder="Enter Student Name"
-              id="student">
-            </input>
-          </div>          
-          <div id="exerciseSelector">
-            <ExSelection exList={ data } routineList = { routineList } />
-          </div>
-        </form>
+        <Container>
+          <h2>Current Routines</h2>
+          <h3>Student List</h3>
+            <div className="inline-flex">
+              <select value={ currentStudent } onChange={ handleStudentChange }>
+                <option key="n/a" />
+                {studentRoutines.map((routine, index) => (
+                <option key={ routine.student }>
+                  {routine.student}
+                </option>
+                ))}
+              </select>
+              <button onClick={ clearRoutine } className="btn btn-danger m-2">Clear Student</button>
+            </div>
+        </Container>
+        <Container>
+          <h2>Routine Builder</h2>
+          <form onSubmit={ submit }>
+            <div className="inline">
+              <input
+                value={ student }
+                onChange={(event) =>
+                  setStudent(event.target.value)}
+                type="text"
+                placeholder="Enter Student Name"
+                id="student">
+              </input>
+            </div>          
+            <div id="exerciseSelector">
+              <ExSelection exList={ data } routineList = { routineList } />
+            </div>
+          </form>
+        </Container>
+        
       </div>
     )
 };
@@ -336,31 +274,7 @@ export function Exercises() {
     if (exercises)
       return (
         <div>
-          <div>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
-              <a class="navbar-brand" href="/">Harnett Music Studio</a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-          
-              <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                  <li class="nav-item active">
-                  <Link to="/" className="nav-link">Home</Link>
-                  </li>
-                  <li class="nav-item">
-                    <Link to="/teacher" className="nav-link">Teacher</Link>
-                  </li>
-                  <li class="nav-item">
-                    <Link to="/studentSignIn" className="nav-link">Student Sign-in</Link>
-                  </li>
-                  <li class="nav-item">
-                    <Link to="/exerciseList" className="nav-link">Exercise List<span class="sr-only">(current)</span></Link>
-                  </li>
-                </ul>
-              </div>
-            </nav>
-          </div>        
+          <Navigation></Navigation>
           <h1>Exercise List</h1>
           <ExerciseList exList={ exercises } />
         </div>
