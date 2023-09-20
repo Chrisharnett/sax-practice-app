@@ -32,7 +32,6 @@ export function ExSelection( {exList, routineList} ) {
     const isChecked = (item) =>
         checked.includes(item) ? "checked-item" : "not-checked-item";
 
-
     return (
         <div className="checkList">
             <button onClick={() => {
