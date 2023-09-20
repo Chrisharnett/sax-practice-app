@@ -1,5 +1,3 @@
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form'
 import { useState } from 'react'
 
 export function CurrentExercise( { exercise } ) {    
@@ -45,11 +43,11 @@ export function ExSelection( {exList, routineList} ) {
                 )}} className="btn btn-primary m-3">Create Routine
             </button>
             <h3>Exercise List</h3>
-            {/* Have the exercise move into the new routine list as selected?? */}
+            {/* Have the exercise image move into the new routine list as selected?? */}
             <div>
                 {`Selected Exercises: ${checkedItems}`}
             </div>
-            <Form>
+            <div>
                 {exList.map((ex, index) => (
                     <div key={index} className="form-check mb-3">
                         <input id={ index } value={ index } type="checkbox" onChange={handleCheck} />
@@ -57,7 +55,7 @@ export function ExSelection( {exList, routineList} ) {
                         <img src={ ex.imageURL } alt={ ex.description } height= { 50 }></img>
                     </div>
                 ))}
-            </Form>
+            </div>
         </div>
     )
 }

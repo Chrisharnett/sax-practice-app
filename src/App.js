@@ -1,13 +1,12 @@
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown'
+import Form from 'react-bootstrap/Form'
 import './App.css';
 import { useState, useEffect} from 'react';
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CurrentExercise, ExSelection, ExerciseList } from './exercise';
 
 // let directJSON = 'https://mysaxpracticeexercisebucket.s3.amazonaws.com/exerciseJSON.json'
@@ -29,21 +28,22 @@ function Home() {
   )
 };
 
+// TODO: Move to new file.
 function Navigation() {
   return (
     <Navbar expand="lg" className="navbar-dark bg-dark p-2">
-        <Container>
-          <Navbar.Brand href="/">Harnett Music Studio</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="/teacher">Teacher</Nav.Link>
-              <Nav.Link href="/studentSignIn">Student Sign-In</Nav.Link>
-              <Nav.Link href="/exerciseList">Exercise List</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <Container>
+        <Navbar.Brand href="/">Harnett Music Studio</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/teacher">Teacher</Nav.Link>
+            <Nav.Link href="/studentSignIn">Student Sign-In</Nav.Link>
+            <Nav.Link href="/exerciseList">Exercise List</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 
@@ -52,7 +52,7 @@ export function Student() {
   const { currentStudent } = location.state
   const [routine, setRoutine] = useState(null)
   // TODO: Set number of rounds in student sign-in and teacher page.
-  const [rounds, setrounds] = useState(4)
+  const [rounds, setRounds] = useState(4)
   const [currentRound, setCurrentRounds]= useState(0)
   const [count, setCount] = useState(0)  
   const [currentExercise, setCurrentExercise] = useState(null)
@@ -132,6 +132,7 @@ export function Student() {
   }
 };
 
+// TODO: Create student file?
 export function StudentSignIn() {
   const [currentStudent, setCurrentStudent] = useState("Horatio")
   const navigate = useNavigate();
@@ -179,7 +180,6 @@ export function Teacher() {
     .then(setData);
   }, []);
 
-  
     useEffect(() => {
       setRoutines(studentRoutines);
     }, []);
@@ -225,41 +225,44 @@ export function Teacher() {
     return (
       <div>
         <Navigation></Navigation>
-        <h1>Student Routines</h1>
+        <h1>Student Routine Builder</h1>
         <Container>
           <h2>Current Routines</h2>
-          <h3>Student List</h3>
-            <div className="inline-flex">
-              <select value={ currentStudent } onChange={ handleStudentChange }>
-                <option key="n/a" />
-                {studentRoutines.map((routine, index) => (
-                <option key={ routine.student }>
-                  {routine.student}
-                </option>
-                ))}
-              </select>
-              <button onClick={ clearRoutine } className="btn btn-danger m-2">Clear Student</button>
-            </div>
+          <Container>
+          <h3 className="">Remove current routine</h3>
+          <div className="inline-flex">
+            <select value={ currentStudent } onChange={ handleStudentChange }>
+              <option key="n/a" />
+              {studentRoutines.map((routine, index) => (
+              <option key={ routine.student }>
+                {routine.student}
+              </option>
+              ))}
+            </select>
+            <button onClick={ clearRoutine } className="btn btn-danger m-2">Clear Student</button>
+          </div>
+          </Container>
         </Container>
         <Container>
           <h2>Routine Builder</h2>
-          <form onSubmit={ submit }>
-            <div className="inline">
-              <input
-                value={ student }
-                onChange={(event) =>
-                  setStudent(event.target.value)}
-                type="text"
-                placeholder="Enter Student Name"
-                id="student">
-              </input>
-            </div>          
-            <div id="exerciseSelector">
-              <ExSelection exList={ data } routineList = { createRoutine } />
-            </div>
-          </form>
-        </Container>
-        
+          <Container>
+            <Form onSubmit={ submit }>
+              <div className="inline">
+                <input
+                  value={ student }
+                  onChange={(event) =>
+                    setStudent(event.target.value)}
+                  type="text"
+                  placeholder="Enter Student Name"
+                  id="student">
+                </input>
+              </div>          
+              <div id="exerciseSelector">
+                <ExSelection exList={ data } routineList = { createRoutine } />
+              </div>
+            </Form>
+          </Container>          
+        </Container>  
       </div>
     )
 };
