@@ -21,7 +21,7 @@ if (storedData) {
 function Home() {
   return (
     <div>
-      <Navigation></Navigation>
+      <Navigation />
       <h1>Home</h1>
       <p>Please note. A teacher must first create a routine for a student before they can sign in</p>
     </div>
@@ -125,7 +125,7 @@ export function Student() {
     if (currentRound === rounds) {
       return (
         <div>
-          <Navigation></Navigation>
+          <Navigation />
           <h1>Great job, today's routine is complete</h1>
         </div>
       )
@@ -150,7 +150,7 @@ export function StudentSignIn() {
 
   return (
     <div>
-      <Navigation></Navigation>
+      <Navigation />
       <h1>Select student</h1>
       <select value={ currentStudent } onChange={handleStudentChange}>
           <option key="n/a" />
@@ -224,7 +224,7 @@ export function Teacher() {
   if(data) 
     return (
       <div>
-        <Navigation></Navigation>
+        <Navigation />
         <h1>Student Routine Builder</h1>
         <Container>
           <h2>Current Routines</h2>
@@ -279,7 +279,7 @@ export function Exercises() {
     if (exercises)
       return (
         <div>
-          <Navigation></Navigation>
+          <Navigation />
           <h1>Exercise List</h1>
           <ExerciseList exList={ exercises } />
         </div>

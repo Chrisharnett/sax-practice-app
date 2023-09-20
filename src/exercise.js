@@ -15,26 +15,23 @@ export function ExerciseList( {exList} ) {
 };
 
 export function ExSelection( {exList, routineList} ) {
-    const [checked, setchecked] = useState([])
+    const [checked, setChecked] = useState([])
 
     const handleCheck = (event) => {
         let updatedList = [...checked];
         if(event.target.checked) {
-        updatedList = [...checked, event.target.value];
+        updatedList = [...checked, { index: event.target.value,
+                                    title: event.target.name,
+                                    imageURL: event.target.id}];
         } else {
         updatedList.splice(checked.indexOf(event.target.value), 1);
         }
-        setchecked(updatedList);
+        setChecked(updatedList);
     };
 
     const isChecked = (item) =>
         checked.includes(item) ? "checked-item" : "not-checked-item";
 
-    let checkedItems = checked.length
-        ? checked.reduce((total, item) => {
-            return total + ", " + item;
-        })
-        : "";
 
     return (
         <div className="checkList">
@@ -42,15 +39,21 @@ export function ExSelection( {exList, routineList} ) {
                 routineList(checked
                 )}} className="btn btn-primary m-3">Create Routine
             </button>
-            <h3>Exercise List</h3>
             {/* Have the exercise image move into the new routine list as selected?? */}
-            <div>
-                {`Selected Exercises: ${checkedItems}`}
+            <h3>Selected Exercises</h3>
+            <div className="d-inline-flex">                
+                {checked.map((ex, index) => (
+                    <div className="m-3">
+                        <p>{ex.title}</p>
+                        <img src={ ex.imageURL } alt={ ex.title } height={ 35 }/>
+                    </div>
+                ))}
             </div>
+            <h3>Exercise List</h3>
             <div>
                 {exList.map((ex, index) => (
                     <div key={index} className="form-check mb-3">
-                        <input id={ index } value={ index } type="checkbox" onChange={handleCheck} />
+                        <input id={ ex.imageURL } value={ index } name={ ex.title }type="checkbox" onChange={handleCheck} />
                         <h4 className={isChecked(ex.title)}>{ ex.title } </h4>
                         <img src={ ex.imageURL } alt={ ex.description } height= { 50 }></img>
                     </div>
