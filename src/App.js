@@ -186,17 +186,17 @@ export function Teacher() {
 
     // TODO: Set number of rounds in student sign-in and teacher page.
     const createRoutine = (newRoutine) => {
-    let exList = [];
-    for (let i of newRoutine){  
-      exList.push(data[i]);
-    }
-    setRoutine(exList);
-    let updatedRoutines = [...routines, { student, routine: exList }];    
-    studentRoutines = updatedRoutines;    
-    localStorage.setItem('studentRoutines', JSON.stringify(studentRoutines));
-    setRoutines(updatedRoutines);
-    submit();
-  };
+      let exList = [];
+      for (let i of newRoutine){  
+        exList.push(data[i.index]);
+      }
+      setRoutine(exList);
+      let updatedRoutines = [...routines, { student, routine: exList }];    
+      studentRoutines = updatedRoutines;    
+      localStorage.setItem('studentRoutines', JSON.stringify(studentRoutines));
+      setRoutines(updatedRoutines);
+      submit();
+    };
 
   const clearRoutine = () => {
     let updatedRoutines = routines.filter((routine) => {

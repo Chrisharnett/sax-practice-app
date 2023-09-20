@@ -42,8 +42,8 @@ export function ExSelection( {exList, routineList} ) {
             <h3>Selected Exercises</h3>
             <div className="d-inline-flex">                
                 {checked.map((ex, index) => (
-                    <div className="m-3">
-                        <p>{ex.title}</p>
+                    <div key={index} className="m-3">
+                        <p>{index + 1}. {ex.title}</p>
                         <img src={ ex.imageURL } alt={ ex.title } height={ 35 }/>
                     </div>
                 ))}
