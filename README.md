@@ -1,3 +1,7 @@
+# Saxophone practice routine builder. 
+Build using react. The app is a saxophone practice app for teachers to use with their students. A teacher chooses a set of exercises for a student. The system creates a practice routine from the exercises. The student signs-in. The student views the practice routine and can step through the exercises.![image](https://github.com/Chrisharnett/sax-practice-app/assets/112789216/088805a2-ea19-4a44-80b8-26585e37e302)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
