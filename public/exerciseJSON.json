@@ -1,15 +1,92 @@
-[{"title": "G Major Whole Note Long Tone ", "imageFilename": "0_g_major_whole_note_long_tone_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/0_g_major_whole_note_long_tone_.cropped.png", "description": "Hold the note for the full value, off on 1 (-1). \nUse a mp to mf dynamic. \nStrive for a consistent, clear, in-tune, sound."},
- {"title": "G Major Dotted Half Note Long Tone ", "imageFilename": "1_g_major_dotted_half_note_long_tone_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/1_g_major_dotted_half_note_long_tone_.cropped.png", "description": "Hold the note for the full value, off on 1 (-1). \nUse a mp to mf dynamic. \nStrive for a consistent, clear, in-tune, sound."}, 
- {"title": "G Major Quarter Note One Note Rhythm ", "imageFilename": "2_g_major_quarter_note_one_note_rhythm_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/2_g_major_quarter_note_one_note_rhythm_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nRepeat twice and end with a good whole note.\nPlay well 5 times."}, 
- {"title": "G Major Quarter Note One Note Rhythm ", "imageFilename": "3_g_major_quarter_note_one_note_rhythm_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/3_g_major_quarter_note_one_note_rhythm_.cropped.png", "description": "Hold each note for the full value. \nUse a comfortable dynamic. \nRepeat twice and end with a good whole note.\nPlay well 5 times."}, 
- {"title": "G Major Quarter Note One Note Rhythm ", "imageFilename": "4_g_major_quarter_note_one_note_rhythm_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/4_g_major_quarter_note_one_note_rhythm_.cropped.png", "description": "Hold each note for the full value. \nUse a comfortable dynamic. \nRepeat twice and end with a good whole note.\nPlay well 5 times."}, 
- {"title": "G Major Half Note Two Note Scale Pattern ", "imageFilename": "5_g_major_half_note_two_note_scale_pattern_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/5_g_major_half_note_two_note_scale_pattern_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound.\n Play each note evenly."},
-  {"title": "G Major Two Note Scale Pattern ", "imageFilename": "6_g_major_two_note_scale_pattern_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/6_g_major_two_note_scale_pattern_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."}, 
-  {"title": "G Major Quarter Note Rhythm ", "imageFilename": "7_g_major_quarter_note_rhythm_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/7_g_major_quarter_note_rhythm_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."}, 
-  {"title": "G Major Quarter Note Rhythm ", "imageFilename": "8_g_major_quarter_note_rhythm_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/8_g_major_quarter_note_rhythm_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."}, 
-  {"title": "G Major Quarter Note Rhythm ", "imageFilename": "9_g_major_quarter_note_rhythm_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/9_g_major_quarter_note_rhythm_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."}, 
-  {"title": "G Major Quarter Note Three Note Scale Pattern ", "imageFilename": "10_g_major_quarter_note_three_note_scale_pattern_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/10_g_major_quarter_note_three_note_scale_pattern_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."}, 
-  {"title": "G Major Quarter Note Four Note Scale Pattern ", "imageFilename": "11_g_major_quarter_note_four_note_scale_pattern_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/11_g_major_quarter_note_four_note_scale_pattern_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."}, 
-  {"title": "G Major Quarter Note Five Note Scale Pattern ", "imageFilename": "12_g_major_quarter_note_five_note_scale_pattern_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/12_g_major_quarter_note_five_note_scale_pattern_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."}, 
-  {"title": "G Major Quarter Note Six Note Scale Pattern ", "imageFilename": "13_g_major_quarter_note_six_note_scale_pattern_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/13_g_major_quarter_note_six_note_scale_pattern_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."}, 
-  {"title": "G Major Quarter Note Ninth Scale Pattern ", "imageFilename": "14_g_major_quarter_note_ninth_scale_pattern_.cropped.png", "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/14_g_major_quarter_note_ninth_scale_pattern_.cropped.png", "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."}]
+[
+  {
+    "title": "G Major Whole Note Long Tone ",
+    "imageFilename": "0_g_major_whole_note_long_tone_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/0_g_major_whole_note_long_tone_.cropped.png",
+    "description": "Hold the note for the full value, off on 1 (-1). \nUse a mp to mf dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  },
+  {
+    "title": "G Major Dotted Half Note Long Tone ",
+    "imageFilename": "1_g_major_dotted_half_note_long_tone_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/1_g_major_dotted_half_note_long_tone_.cropped.png",
+    "description": "Hold the note for the full value, off on 1 (-1). \nUse a mp to mf dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  },
+  {
+    "title": "G Major Quarter Note One Note Rhythm ",
+    "imageFilename": "2_g_major_quarter_note_one_note_rhythm_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/2_g_major_quarter_note_one_note_rhythm_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nRepeat twice and end with a good whole note.\nPlay well 5 times."
+  },
+  {
+    "title": "G Major Quarter Note One Note Rhythm ",
+    "imageFilename": "3_g_major_quarter_note_one_note_rhythm_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/3_g_major_quarter_note_one_note_rhythm_.cropped.png",
+    "description": "Hold each note for the full value. \nUse a comfortable dynamic. \nRepeat twice and end with a good whole note.\nPlay well 5 times."
+  },
+  {
+    "title": "G Major Quarter Note One Note Rhythm ",
+    "imageFilename": "4_g_major_quarter_note_one_note_rhythm_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/4_g_major_quarter_note_one_note_rhythm_.cropped.png",
+    "description": "Hold each note for the full value. \nUse a comfortable dynamic. \nRepeat twice and end with a good whole note.\nPlay well 5 times."
+  },
+  {
+    "title": "G Major Half Note Two Note Scale Pattern ",
+    "imageFilename": "5_g_major_half_note_two_note_scale_pattern_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/5_g_major_half_note_two_note_scale_pattern_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound.\n Play each note evenly."
+  },
+  {
+    "title": "G Major Two Note Scale Pattern ",
+    "imageFilename": "6_g_major_two_note_scale_pattern_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/6_g_major_two_note_scale_pattern_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  },
+  {
+    "title": "G Major Quarter Note Rhythm ",
+    "imageFilename": "7_g_major_quarter_note_rhythm_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/7_g_major_quarter_note_rhythm_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  },
+  {
+    "title": "G Major Quarter Note Rhythm ",
+    "imageFilename": "8_g_major_quarter_note_rhythm_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/8_g_major_quarter_note_rhythm_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  },
+  {
+    "title": "G Major Quarter Note Rhythm ",
+    "imageFilename": "9_g_major_quarter_note_rhythm_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/9_g_major_quarter_note_rhythm_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  },
+  {
+    "title": "G Major Quarter Note Three Note Scale Pattern ",
+    "imageFilename": "10_g_major_quarter_note_three_note_scale_pattern_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/10_g_major_quarter_note_three_note_scale_pattern_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  },
+  {
+    "title": "G Major Quarter Note Four Note Scale Pattern ",
+    "imageFilename": "11_g_major_quarter_note_four_note_scale_pattern_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/11_g_major_quarter_note_four_note_scale_pattern_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  },
+  {
+    "title": "G Major Quarter Note Five Note Scale Pattern ",
+    "imageFilename": "12_g_major_quarter_note_five_note_scale_pattern_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/12_g_major_quarter_note_five_note_scale_pattern_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  },
+  {
+    "title": "G Major Quarter Note Six Note Scale Pattern ",
+    "imageFilename": "13_g_major_quarter_note_six_note_scale_pattern_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/13_g_major_quarter_note_six_note_scale_pattern_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  },
+  {
+    "title": "G Major Quarter Note Ninth Scale Pattern ",
+    "imageFilename": "14_g_major_quarter_note_ninth_scale_pattern_.cropped.png",
+    "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/14_g_major_quarter_note_ninth_scale_pattern_.cropped.png",
+    "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound."
+  }
+]

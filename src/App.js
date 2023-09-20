@@ -87,10 +87,25 @@ export function Student() {
           thisRound.push(routine[i]);
         }
         thisRound = shuffleExercises(thisRound);
-        // Add the to the rountine with setRoutine
-        setRoutine(thisRound);
-      } 
+        // Set the routine only if it is different.
+        if (arraysAreEqual(routine, thisRound)){
+          setRoutine(thisRound);
+        };
+        
+      }
   }}, [routine, count, rounds, currentRound]);
+
+  function arraysAreEqual(routine1, routine2) {
+    if (routine1.length !== routine2.length){
+      return false;
+    };
+    for (let i = 0; i < routine1.length; i++){
+      if (routine1[i] !== routine2[i]){
+        return false;
+      };
+      return true
+    }
+  }
 
   const handleNextExercise = () => {
     if (count < routine.length - 1) {
@@ -200,10 +215,9 @@ export function Teacher() {
 
   const clearRoutine = () => {
     let updatedRoutines = routines.filter((routine) => {
-      if(routine.student !== currentStudent) {
-        return routine
-      }
-    })
+      return routine.student !== currentStudent;
+    });
+    
     setRoutines(updatedRoutines)
     studentRoutines = updatedRoutines
     localStorage.setItem('studentRoutines', JSON.stringify(studentRoutines));
