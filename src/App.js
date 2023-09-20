@@ -19,7 +19,6 @@ if (storedData) {
   studentRoutines=JSON.parse(storedData)
 }
 
-// TODO: CSS
 function Home() {
   return (
     <div>
@@ -52,6 +51,7 @@ export function Student() {
   const location = useLocation();
   const { currentStudent } = location.state
   const [routine, setRoutine] = useState(null)
+  // TODO: Set number of rounds in student sign-in and teacher page.
   const [rounds, setrounds] = useState(4)
   const [currentRound, setCurrentRounds]= useState(0)
   const [count, setCount] = useState(0)  
@@ -59,7 +59,7 @@ export function Student() {
   const [exerciseCount, setExerciseCount] = useState(1)
   
   // Randomize a round of exercises with Fisher-Yates algorithm.
-  //  Add logic to prevent the same exercise happening twice in a row.
+  // Add logic to prevent the same exercise happening twice in a row.
   const shuffleExercises = (exercises) => {
     for(let i=exercises.length -1; i > 0; i--){
       const j = Math.floor(Math.random() * (i+1))
@@ -136,6 +136,7 @@ export function StudentSignIn() {
   const [currentStudent, setCurrentStudent] = useState("Horatio")
   const navigate = useNavigate();
 
+  // TODO: Set number of rounds in student sign-in and teacher page.
   const handleStartRoutine = () => {
     navigate("/student", {
       state: { currentStudent: currentStudent }
@@ -183,7 +184,8 @@ export function Teacher() {
       setRoutines(studentRoutines);
     }, []);
 
-  const routineList = (newRoutine) => {
+    // TODO: Set number of rounds in student sign-in and teacher page.
+    const createRoutine = (newRoutine) => {
     let exList = [];
     for (let i of newRoutine){  
       exList.push(data[i]);
@@ -253,7 +255,7 @@ export function Teacher() {
               </input>
             </div>          
             <div id="exerciseSelector">
-              <ExSelection exList={ data } routineList = { routineList } />
+              <ExSelection exList={ data } routineList = { createRoutine } />
             </div>
           </form>
         </Container>
