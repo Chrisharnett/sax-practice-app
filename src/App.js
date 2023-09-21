@@ -28,6 +28,11 @@ function Home() {
   )
 };
 
+export function NotFoundPage(){
+  return(
+    <h1>404 Error, Page Not Found</h1>
+  )
+}
 // TODO: Move to new file.
 function Navigation() {
   return (
