@@ -15,8 +15,8 @@ import { CurrentExercise, ExSelection, ExerciseList } from './exercise';
 let studentRoutines=[];
 const storedData = localStorage.getItem("studentRoutines");
 if (storedData) {
-  studentRoutines=JSON.parse(storedData)
-}
+  studentRoutines=JSON.parse(storedData);
+};
 
 function Home() {
   return (
