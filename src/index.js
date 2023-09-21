@@ -12,16 +12,14 @@ import {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-  <Routes>
-    <Route path="/" element={<App />} />
-    <Route path="/student" element={<Student />} />
-    <Route path="/teacher" element={<Teacher />} />
-    <Route path="/studentSignIn" element={<StudentSignIn />} />
-    <Route path="/exerciseList" element={<Exercises />} />
-  </Routes>
-    
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/student" element={<Student />} />
+      <Route path="/teacher" element={<Teacher />} />
+      <Route path="/studentSignIn" element={<StudentSignIn />} />
+      <Route path="/exerciseList" element={<Exercises />} />
+    </Routes>
   </BrowserRouter>,
-  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

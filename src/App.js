@@ -167,7 +167,7 @@ export function StudentSignIn() {
     <div>
       <Navigation />
       <h1>Select student</h1>
-      <select value={ currentStudent } onChange={handleStudentChange}>
+      <select name="studentSelector" value={ currentStudent } onChange={handleStudentChange}>
           <option key="n/a" />
         {studentRoutines.map((routine, index) => (
             <option key={ routine.student }>
@@ -245,10 +245,10 @@ export function Teacher() {
           <Container>
           <h3 className="">Remove current routine</h3>
           <div className="inline-flex">
-            <select value={ currentStudent } onChange={ handleStudentChange }>
-              <option key="n/a" />
+            <select name="studentSelector" value={ currentStudent } onChange={ handleStudentChange }>
+              <option id={ -1 } key="n/a" />
               {studentRoutines.map((routine, index) => (
-              <option key={ routine.student }>
+              <option id={ index } key={ routine.student }>
                 {routine.student}
               </option>
               ))}

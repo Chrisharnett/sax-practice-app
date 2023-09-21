@@ -9,7 +9,7 @@ export function CurrentExercise( { exercise } ) {
 export function ExerciseList( {exList} ) {    
     return (
         exList.map((exList, i) => {
-            return <Exercise title={ exList.title } description={ exList.description } src={ exList.imageURL } height={50}/>
+            return <Exercise key={ i } title={ exList.title } description={ exList.description } src={ exList.imageURL } height={50}/>
         })
     )
 };
@@ -42,7 +42,7 @@ export function ExSelection( {exList, routineList} ) {
             <h3>Selected Exercises</h3>
             <div className="d-inline-flex">                
                 {checked.map((ex, index) => (
-                    <div key={index} className="m-3">
+                    <div id={ index } key={index} className="m-3">
                         <p>{index + 1}. {ex.title}</p>
                         <img src={ ex.imageURL } alt={ ex.title } height={ 35 }/>
                     </div>
@@ -68,7 +68,7 @@ export function Routines({ studentRoutines }) {
         {studentRoutines && studentRoutines.length > 0 ? (
           <div>
             {studentRoutines.map((routine, index) => (
-              <div key={index}>
+              <div id={ index } key={index}>
                 <p>
                   {index + 1}. Student: {routine.student}
                 </p>
