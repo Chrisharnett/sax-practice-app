@@ -59,11 +59,11 @@ export function Student() {
   const [exerciseCount, setExerciseCount] = useState(1)
   
   // Randomize a round of exercises with Fisher-Yates algorithm.
-  // Add logic to prevent the same exercise happening twice in a row.
+  // TODO: Add logic to prevent the same exercise happening twice in a row.
   const shuffleExercises = (exercises) => {
     for(let i=exercises.length -1; i > 0; i--){
-      const j = Math.floor(Math.random() * (i+1))
-      const temp = exercises[i];
+      let j = Math.floor(Math.random() * (i+1))
+      let temp = exercises[i];
       exercises[i] = exercises[j];
       exercises[j]=temp;
     }
