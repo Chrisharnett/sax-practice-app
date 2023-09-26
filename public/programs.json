@@ -1,0 +1,184 @@
+[
+  {
+    "routineName": "Scale1",
+    "goal": "Scale to the ninth in quarter notes",
+    "targetBPM": 60,
+    "exerciseSequence": [
+      {
+        "title": "G Major Whole Note Long Tone Fermata Pattern 0",
+        "imageFilename": "0_g_major_whole_note_long_tone_fermata_Pattern_0.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/0_g_major_whole_note_long_tone_fermata_Pattern_0.cropped.png",
+        "description": "Hold the note for as long as you can. Make sure it has a clean ending!",
+        "patternType": "long_tone"
+      },
+      {
+        "title": "G Major Whole Note Long Tone Fermata Pattern 1",
+        "imageFilename": "1_g_major_whole_note_long_tone_fermata_Pattern_1.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/1_g_major_whole_note_long_tone_fermata_Pattern_1.cropped.png",
+        "description": "Hold the note for as long as you can. Make sure it has a clean ending!",
+        "patternType": "long_tone"
+      },
+      {
+        "title": "G Major Quarter-Note One Bar Rhythm Pattern 2",
+        "imageFilename": "2_g_major_quarter-note_one_bar_rhythm_Pattern_2.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/2_g_major_quarter-note_one_bar_rhythm_Pattern_2.cropped.png",
+        "description": "Play both notes evenly and in time.",
+        "patternType": "one_bar_rhythm"
+      },
+      {
+        "title": "G Major Quarter-Note One Bar Rhythm Pattern 3",
+        "imageFilename": "3_g_major_quarter-note_one_bar_rhythm_Pattern_3.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/3_g_major_quarter-note_one_bar_rhythm_Pattern_3.cropped.png",
+        "description": "Play the notes evenly and precisely.",
+        "patternType": "one_bar_rhythm"
+      },
+      {
+        "title": "G Major Quarter-Note Rhythm Pattern 4",
+        "imageFilename": "4_g_major_quarter-note_rhythm_Pattern_4.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/4_g_major_quarter-note_rhythm_Pattern_4.cropped.png",
+        "description": "Quick, precise finger movement.",
+        "patternType": "rhythm"
+      },
+      {
+        "title": "G Major Quarter-Note Rhythm Pattern 5",
+        "imageFilename": "5_g_major_quarter-note_rhythm_Pattern_5.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/5_g_major_quarter-note_rhythm_Pattern_5.cropped.png",
+        "description": "Play all notes with the same tone.",
+        "patternType": "rhythm"
+      },
+      {
+        "title": "G Major Whole Note Long Tone Pattern 6",
+        "imageFilename": "6_g_major_whole_note_long_tone_Pattern_6.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/6_g_major_whole_note_long_tone_Pattern_6.cropped.png",
+        "description": "Hold the note with a strong sound for as long as you can. Make sure it has a clean ending!",
+        "patternType": "long_tone"
+      },
+      {
+        "title": "G Major Quarter-Note Interval Pattern 7",
+        "imageFilename": "7_g_major_quarter-note_interval_Pattern_7.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/7_g_major_quarter-note_interval_Pattern_7.cropped.png",
+        "description": "Quick and precise finger movement.",
+        "patternType": "interval"
+      },
+      {
+        "title": "G Major Whole Note Long Tone Fermata Pattern 8",
+        "imageFilename": "8_g_major_whole_note_long_tone_fermata_Pattern_8.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/8_g_major_whole_note_long_tone_fermata_Pattern_8.cropped.png",
+        "description": "Hold the note with a strong sound for as long as you can. Make sure it has a clean ending!",
+        "patternType": "long_tone"
+      },
+      {
+        "title": "G Major Quarter Note Five Note Scale Pattern 9",
+        "imageFilename": "9_g_major_quarter_note_five_note_scale_Pattern_9.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/9_g_major_quarter_note_five_note_scale_Pattern_9.cropped.png",
+        "description": "Play all notes evenly. Look ahead to the next note.",
+        "patternType": "five_note_scale"
+      },
+      {
+        "title": "G Major Whole Note Long Tone Fermata Pattern 10",
+        "imageFilename": "10_g_major_whole_note_long_tone_fermata_Pattern_10.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/10_g_major_whole_note_long_tone_fermata_Pattern_10.cropped.png",
+        "description": "Hold the note with a strong sound for as long as you can. Make sure it has a clean ending!",
+        "patternType": "long_tone"
+      },
+      {
+        "title": "G Major Quarter Note Five Note Scale Pattern 11",
+        "imageFilename": "11_g_major_quarter_note_five_note_scale_Pattern_11.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/11_g_major_quarter_note_five_note_scale_Pattern_11.cropped.png",
+        "description": "Play all notes evenly. Look ahead to the next note.",
+        "patternType": "five_note_scale"
+      },
+      {
+        "title": "G Major Quarter Note Arpeggio Pattern 12",
+        "imageFilename": "12_g_major_quarter_note_arpeggio_Pattern_12.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/12_g_major_quarter_note_arpeggio_Pattern_12.cropped.png",
+        "description": "This is an arpeggio. Notice how it skips notes..",
+        "patternType": "arpeggio"
+      },
+      {
+        "title": "G Major Whole Note Long Tone Fermata Pattern 13",
+        "imageFilename": "13_g_major_whole_note_long_tone_fermata_Pattern_13.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/13_g_major_whole_note_long_tone_fermata_Pattern_13.cropped.png",
+        "description": "Hold the note with a strong sound for as long as you can. Make sure it has a clean ending!",
+        "patternType": "long_tone"
+      },
+      {
+        "title": "G Major Quarter Note Five Note Scale Pattern Pattern 14",
+        "imageFilename": "14_g_major_quarter_note_five_note_scale_pattern_Pattern_14.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/14_g_major_quarter_note_five_note_scale_pattern_Pattern_14.cropped.png",
+        "description": "Play each note evenly. Repeat as many times as you can!",
+        "patternType": "five_note_scale_pattern"
+      },
+      {
+        "title": "G Major Quarter Note Five Note Scale Pattern Pattern 15",
+        "imageFilename": "15_g_major_quarter_note_five_note_scale_pattern_Pattern_15.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/15_g_major_quarter_note_five_note_scale_pattern_Pattern_15.cropped.png",
+        "description": "Play strictly in time with the metronome.",
+        "patternType": "five_note_scale_pattern"
+      },
+      {
+        "title": "G Major Whole Note Long Tone Fermata Pattern 16",
+        "imageFilename": "16_g_major_whole_note_long_tone_fermata_Pattern_16.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/16_g_major_whole_note_long_tone_fermata_Pattern_16.cropped.png",
+        "description": "Hold the note with a strong sound for as long as you can. Make sure it has a clean ending!",
+        "patternType": "long_tone"
+      },
+      {
+        "title": "G Major Quarter Note Scale Pattern Pattern 17",
+        "imageFilename": "17_g_major_quarter_note_Scale_pattern_Pattern_17.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/17_g_major_quarter_note_Scale_pattern_Pattern_17.cropped.png",
+        "description": "Play strictly in time with the metronome.",
+        "patternType": "Scale_pattern"
+      },
+      {
+        "title": "G Major Quarter Note Scale Pattern Pattern 18",
+        "imageFilename": "18_g_major_quarter_note_Scale_pattern_Pattern_18.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/18_g_major_quarter_note_Scale_pattern_Pattern_18.cropped.png",
+        "description": "Hold the note for the full value. \nUse a comfortable dynamic. \nStrive for a consistent, clear, in-tune, sound.",
+        "patternType": "Scale_pattern"
+      },
+      {
+        "title": "G Major Whole Note Long Tone Fermata Pattern 19",
+        "imageFilename": "19_g_major_whole_note_long_tone_fermata_Pattern_19.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/19_g_major_whole_note_long_tone_fermata_Pattern_19.cropped.png",
+        "description": "Hold the note with a strong sound for as long as you can. Make sure it has a clean ending!",
+        "patternType": "long_tone"
+      },
+      {
+        "title": "G Major Quarter Note Ninth Scale Pattern Pattern 20",
+        "imageFilename": "20_g_major_quarter_note_ninth_scale_pattern_Pattern_20.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/20_g_major_quarter_note_ninth_scale_pattern_Pattern_20.cropped.png",
+        "description": "Adding the ninth helps the scale fit the metre.",
+        "patternType": "ninth_scale_pattern"
+      },
+      {
+        "title": "G Major Quarter Note Arpeggio Pattern 21",
+        "imageFilename": "21_g_major_quarter_note_arpeggio_Pattern_21.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/21_g_major_quarter_note_arpeggio_Pattern_21.cropped.png",
+        "description": "This is an arpeggio. Notice how it skips notes..",
+        "patternType": "arpeggio"
+      },
+      {
+        "title": "G Major Quarter Note Ninth Scale Pattern Pattern 22",
+        "imageFilename": "22_g_major_quarter_note_ninth_scale_pattern_Pattern_22.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/22_g_major_quarter_note_ninth_scale_pattern_Pattern_22.cropped.png",
+        "description": "Quick finger movement for a clean sound.",
+        "patternType": "ninth_scale_pattern"
+      },
+      {
+        "title": "G Major Quarter Note Arpeggio Pattern 23",
+        "imageFilename": "23_g_major_quarter_note_arpeggio_Pattern_23.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/23_g_major_quarter_note_arpeggio_Pattern_23.cropped.png",
+        "description": "Repeat as many times as possible before the last note.",
+        "patternType": "arpeggio"
+      },
+      {
+        "title": "G Major Quarter Note Arpeggio Pattern 24",
+        "imageFilename": "24_g_major_quarter_note_arpeggio_Pattern_24.cropped.png",
+        "imageURL": "https://mysaxpracticeexercisebucket.s3.amazonaws.com/img/24_g_major_quarter_note_arpeggio_Pattern_24.cropped.png",
+        "description": "Repeat as many times as possible before the last note.",
+        "patternType": "arpeggio"
+      }
+    ]
+  }
+]
