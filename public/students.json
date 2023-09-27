@@ -8,22 +8,8 @@
       "programMode": "major",
       "currentIndex": 0
     },
-    "exerciseList": {
-      "title": "",
-      "imageName": "",
-      "imageURL": "",
-      "description": "",
-      "patternType": "",
-      "playCount": 0,
-      "assessment": 0
-    },
-    "previousSet": {
-      "title": "",
-      "imageName": "",
-      "imageURL": "",
-      "description": "",
-      "patternType": ""
-    }
+    "exerciseList": [],
+    "previousSet": []
   },
   {
     "studentName": "Claire",
@@ -34,22 +20,8 @@
       "programMode": "major",
       "currentIndex": 0
     },
-    "exerciseList": {
-      "title": "",
-      "imageName": "",
-      "imageURL": "",
-      "description": "",
-      "patternType": "",
-      "playCount": 0,
-      "assessment": 0
-    },
-    "previousSet": {
-      "title": "",
-      "imageName": "",
-      "imageURL": "",
-      "description": "",
-      "patternType": ""
-    }
+    "exerciseList": [],
+    "previousSet": []
   },
   {
     "studentName": "Kieran",
@@ -60,21 +32,7 @@
       "programMode": "major",
       "currentIndex": 0
     },
-    "exerciseList": {
-      "title": "",
-      "imageName": "",
-      "imageURL": "",
-      "description": "",
-      "patternType": "",
-      "playCount": 0,
-      "assessment": 0
-    },
-    "previousSet": {
-      "title": "",
-      "imageName": "",
-      "imageURL": "",
-      "description": "",
-      "patternType": ""
-    }
+    "exerciseList": [],
+    "previousSet": []
   }
 ]

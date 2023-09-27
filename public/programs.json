@@ -1,5 +1,6 @@
 [
   {
+    "programId": 0,
     "programName": "Scale1",
     "goal": "Scale to the ninth in quarter notes",
     "targetBPM": 60,

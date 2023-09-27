@@ -9,6 +9,7 @@ import { useState, useEffect} from 'react';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CurrentExercise, ExSelection, ExerciseList } from './exercise';
 import axios from 'axios';
+import PracticeSet from './setBuilder';
 
 // let directJSON = 'https://mysaxpracticeexercisebucket.s3.amazonaws.com/exerciseJSON.json'
 // let localJSON = 'exerciseJSON.json'
@@ -29,11 +30,13 @@ function Home() {
   )
 };
 
+// TODO: Finish putting this together
 export function NotFoundPage(){
   return(
     <h1>404 Error, Page Not Found</h1>
   )
 }
+
 // TODO: Move to new file.
 function Navigation() {
   return (
@@ -153,33 +156,144 @@ export function Student() {
           <h1>Great job, today's routine is complete</h1>
         </div>
       )
-  }
+    }
 };
 
 export function StudentPracticePage() {
   const { studentName } = useParams()
-  const[ student, setStudent]  = useState(null);
+  const [student, setStudent]  = useState(null);
+  const [currentExercise, setCurrentExercise] = useState(null);
+  const [program, setProgram] = useState(null);
+  const [thisSet, setThisSet] = useState(null)
+  const [rounds, setRounds] = useState(4);
+  const [maxNew, setMaxNew] = useState(1);
+  const [setLength, setSetLength] = useState(4);
+  const [count, setCount] = useState(0);
+  const [exerciseCount, setExerciseCount] = useState(1);
+  const [currentRound, setCurrentRound] = useState(0);
 
   useEffect(() => {
     const loadStudentInfo = async () => {
       const response = await axios.get(`http://localhost:8000/api/students/${studentName}`)
-      const studentInfo = response.data;
-      setStudent({ studentInfo })
+      setStudent(response.data)
     };
     loadStudentInfo();
+  }, []);
 
-    // let thisSet = Set()
+  useEffect(() => {
+    const getSetReady = async () => {
+      if(student){
+        if(student.program){
+          const studentProgram = await axios.get(`http://localhost:8000/api/programs/${student.program.programId}`);
+          setProgram(studentProgram.data)
+        }
+    }
+  };
+    getSetReady() 
+  }, [student]);
 
-  }, [studentName]);
+  useEffect(() => {
 
-  if(student){
+    const updateStudent = async () =>{
+      const response = await axios.put(`http://localhost:8000/api/studentUpdate/${student.studentName}`, thisSet)
+      console.log(response);
+    };
+
+    if (student && program){
+      let set =[];
+      let previousSet = student.previousSet;
+      if(previousSet === null){
+          for (let i = 0; i < setLength; i++){
+              set.push(program.exerciseSequence[i]);
+          };
+          setThisSet(set);
+          setCurrentExercise(set[0]);
+          updateStudent();
+      };
+    }
+  }, [student, program, setLength]);
+  
+  const handleNextExercise = () => {
+    if (count < thisSet.length - 1) {
+      setCount(count + 1);
+      setExerciseCount(exerciseCount + 1)
+      setCurrentExercise(thisSet[count + 1]);
+    }
+    else {
+      setCurrentRound(currentRound + 1);
+      setCount(0);
+      setCurrentExercise(thisSet[0]);
+      setExerciseCount(exerciseCount + 1)
+    };
+  }
+    // else{
+    //     set = student.previousSet
+    // }    
+    // if (student.PreviousSet()){
+        
+    // }
+    // else{
+    //     // get the new exercise
+    //     // place the new exercise in the set list to replace the same category of exercise.
+    //     // update the remaining reviewexercises
+    //     let nextProgramExercise = this.chooseNewExercise();
+    //     for (let i=1; i < this.__student.getPreviousSet; i++){
+    //         if (this.__student.getPreviousSet[i].patternType === nextProgramExercise.patternType){
+    //             set[i] = nextProgramExercise;
+    //         }
+    //         else {
+    //             set[i] = this.chooseReviewExercise(this.__student.getPreviousSet[i])
+    //         }
+    //     }
+    // };
+
+
+const chooseReviewExercise = (previousExercise) => {
+    let m = this.__student.getStudentExerciseList().assessment.min();
+    let possibleExercises = this.__student.getStudentExercises.filter((x) => x.assessment <= m)
+                            .filter((x) => x.patternType === previousExercise.patternType);
+    return possibleExercises[Math.floor(Math.random) % possibleExercises.length - 1];
+};
+
+const chooseNewExercise = () => {
+    if (this.__student.getCurrentProgramIndex < this.__student.getProgram.length){
+        this.__student.setProgramIndex(this.student.getCurrentProgramIndex++);
+        return this.__student.getProgram[this.__student.getCurrentProgramIndex()];
+    }        
+};
+// Fisher-Yates algorithm array shuffling algorithm.
+const shuffleSet = () => {
+    let exercises = this.__setExercises
+    for(let i=exercises.length -1; i > 0; i--){
+    let j = Math.floor(Math.random() * (i+1))
+    let temp = exercises[i];
+    exercises[i] = exercises[j];
+    exercises[j]=temp;
+    }
+    this.__setExercises = exercises
+}
+
+  if(currentExercise && currentRound < rounds){
+    // if(student.previousSet)
+    // buildSet();
     return(
       <>
         <Navigation />
-        <h1>{ student.studentInfo.studentName }</h1>
+        <h1>{ student.studentName }</h1>
+        <h2>{ student.program.programName } in { student.program.programKey.toUpperCase() } { student.program.programMode } </h2>
+        <h3>Exercise { exerciseCount } of { setLength * rounds }</h3>
+        <CurrentExercise exercise={ currentExercise }/>
+        <button onClick={handleNextExercise} className="btn btn-primary">Next Exercise</button>
       </>
     )
-    }  
+    }else if (currentRound === rounds) {
+      return (
+        <div>
+          <Navigation />
+          <h1>Great job, today's routine is complete</h1>
+        </div>
+      )
+    }
 };
   
 
