@@ -6,8 +6,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import './App.css';
 import { useState, useEffect} from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CurrentExercise, ExSelection, ExerciseList } from './exercise';
+import axios from 'axios';
 
 // let directJSON = 'https://mysaxpracticeexercisebucket.s3.amazonaws.com/exerciseJSON.json'
 // let localJSON = 'exerciseJSON.json'
@@ -54,14 +55,17 @@ function Navigation() {
 
 export function Student() {
   const location = useLocation();
-  const { currentStudent } = location.state
-  const [routine, setRoutine] = useState(null)
+  const { currentStudent } = location.state;
+  const [routine, setRoutine] = useState(null);
   // TODO: Set number of rounds in student sign-in and teacher page.
-  const [rounds, setRounds] = useState(4)
-  const [currentRound, setCurrentRounds]= useState(0)
-  const [count, setCount] = useState(0)  
-  const [currentExercise, setCurrentExercise] = useState(null)
-  const [exerciseCount, setExerciseCount] = useState(1)
+  const [rounds, setRounds] = useState(4);
+  const [currentRound, setCurrentRounds]= useState(0);
+  const [count, setCount] = useState(0);
+  const [currentExercise, setCurrentExercise] = useState(null);
+  const [exerciseCount, setExerciseCount] = useState(1);
+  const [practiceSet, setPracticeSet] = useState(null);
+  const [program, setProgram] = useState(null);
+
   
   // Randomize a round of exercises with Fisher-Yates algorithm.
   // TODO: Add logic to prevent the same exercise happening twice in a row.
@@ -152,39 +156,77 @@ export function Student() {
   }
 };
 
+export function StudentPracticePage() {
+  const { studentName } = useParams()
+  const[ student, setStudent]  = useState(null);
+
+  useEffect(() => {
+    const loadStudentInfo = async () => {
+      const response = await axios.get(`http://localhost:8000/api/students/${studentName}`)
+      const studentInfo = response.data;
+      setStudent({ studentInfo })
+    };
+    loadStudentInfo();
+
+    // let thisSet = Set()
+
+  }, [studentName]);
+
+  if(student){
+    return(
+      <>
+        <Navigation />
+        <h1>{ student.studentInfo.studentName }</h1>
+      </>
+    )
+    }  
+};
+  
+
 // TODO: Create student file?
 export function StudentSignIn() {
-  const [currentStudent, setCurrentStudent] = useState("Horatio")
+  const [studentList, setStudentList] = useState(null)
+  const [currentStudent, setCurrentStudent] = useState(undefined)
   const navigate = useNavigate();
 
+  useEffect(() => {
+    fetch(
+     'students.json'
+   ).then(response => response.json())
+   .then( setStudentList );
+ }, []);
+  
   // TODO: Set number of rounds in student sign-in and teacher page.
   const handleStartRoutine = () => {
-    navigate("/student", {
-      state: { currentStudent: currentStudent }
-    });
+    let url = "/studentPracticePage/" + currentStudent
+    navigate(url)
+    // navigate("/studentPracticePage/"{
+    //   state: { currentStudent: currentStudent }
+
   };
 
   const handleStudentChange= (event) => {
     setCurrentStudent(event.target.value);
   };
-
-  return (
-    <div>
-      <Navigation />
-      <h1>Select student</h1>
-      <select name="studentSelector" value={ currentStudent } onChange={handleStudentChange}>
-          <option key="n/a" />
-        {studentRoutines.map((routine, index) => (
-            <option key={ routine.student }>
-              {routine.student}
-            </option>
-        ))}
-      </select>
-      <Button onClick={() => {
-        handleStartRoutine()
-      }} variant="primary" className="m-2">Start Routine</Button>
-    </div>
-  )};
+  if(studentList){
+    return (
+      <div>
+        <Navigation />
+        <h1>Select student</h1>
+        <select name="studentSelector" value={ currentStudent } onChange={handleStudentChange}>
+            <option key="n/a" />
+          {studentList.map((student, index) => (
+              <option key={ student.studentName }>
+                {student.studentName}
+              </option>
+          ))}
+        </select>
+        <Button onClick={() => {
+          handleStartRoutine()
+        }} variant="primary" className="m-2">Start Routine</Button>
+      </div>
+    )}
+  };
 
 export function Teacher() {
   const [data, setData] = useState(null);
