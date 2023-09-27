@@ -194,21 +194,22 @@ export function StudentPracticePage() {
 
   useEffect(() => {
 
-    const updateStudent = async () =>{
-      const response = await axios.put(`http://localhost:8000/api/studentUpdate/${student.studentName}`, thisSet)
+    const updateStudent = async (exerciseSet) =>{
+      console.log(exerciseSet)
+      const response = await axios.put(`http://localhost:8000/api/studentUpdate/${student.studentName}`, { exerciseSet })
       console.log(response);
     };
 
     if (student && program){
-      let set =[];
+      let exerciseSet =[];
       let previousSet = student.previousSet;
-      if(previousSet === null){
+      if(previousSet.length === 0){
           for (let i = 0; i < setLength; i++){
-              set.push(program.exerciseSequence[i]);
+              exerciseSet.push(program.exerciseSequence[i]);
           };
-          setThisSet(set);
-          setCurrentExercise(set[0]);
-          updateStudent();
+          setThisSet(exerciseSet);
+          setCurrentExercise(exerciseSet[0]);
+          updateStudent(exerciseSet);
       };
     }
   }, [student, program, setLength]);
