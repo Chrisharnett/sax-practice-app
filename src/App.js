@@ -165,13 +165,14 @@ export function StudentPracticePage() {
   const [currentExercise, setCurrentExercise] = useState(null);
   const [program, setProgram] = useState(null);
   const [thisSet, setThisSet] = useState(null)
-  const [rounds, setRounds] = useState(4);
+  const [rounds, setRounds] = useState(2);
   const [maxNew, setMaxNew] = useState(1);
   const [setLength, setSetLength] = useState(4);
   const [count, setCount] = useState(0);
   const [exerciseCount, setExerciseCount] = useState(1);
   const [currentRound, setCurrentRound] = useState(0);
 
+  // Load the current student
   useEffect(() => {
     const loadStudentInfo = async () => {
       const response = await axios.get(`http://localhost:8000/api/students/${studentName}`)
@@ -180,6 +181,7 @@ export function StudentPracticePage() {
     loadStudentInfo();
   }, []);
 
+  // Get the current program the student is studying.
   useEffect(() => {
     const getSetReady = async () => {
       if(student){
@@ -192,14 +194,8 @@ export function StudentPracticePage() {
     getSetReady() 
   }, [student]);
 
+  // Create a set for the student
   useEffect(() => {
-
-    const updateStudent = async (exerciseSet) =>{
-      console.log(exerciseSet)
-      const response = await axios.put(`http://localhost:8000/api/studentUpdate/${student.studentName}`, { exerciseSet })
-      console.log(response);
-    };
-
     if (student && program){
       let exerciseSet =[];
       let previousSet = student.previousSet;
@@ -207,14 +203,59 @@ export function StudentPracticePage() {
           for (let i = 0; i < setLength; i++){
               exerciseSet.push(program.exerciseSequence[i]);
           };
-          setThisSet(exerciseSet);
-          setCurrentExercise(exerciseSet[0]);
-          updateStudent(exerciseSet);
+          student.previousSet = exerciseSet;
+          student.program.currentIndex = exerciseSet.length-1;
+      }
+      else {
+        // Start the new set with the previous set
+        exerciseSet = student.previousSet
+        // Get the next Exercise
+        let nextProgramExercise = chooseNewExercise();
+        // Replace the same patternType in the old exercise
+        for (let i=1; i < previousSet.length; i++){
+            if (previousSet[i].patternType === nextProgramExercise.patternType){
+                exerciseSet[i] = nextProgramExercise;
+            }
+            else {
+              // Choose appropriate review exercises for other exercises
+                let reviewExercise = chooseReviewExercise(previousSet[i]);
+                if (reviewExercise){
+                  exerciseSet[i] = reviewExercise;
+                }
+                else{
+                  exerciseSet[i] = previousSet[i];
+                }
+                
+            }
+        }
+        setThisSet(exerciseSet);
+        setCurrentExercise(exerciseSet[0]);
       };
-    }
+    };
   }, [student, program, setLength]);
-  
-  const handleNextExercise = () => {
+
+  const updateStudent = async () =>{
+    // const response = await axios.put(`http://localhost:8000/api/studentPreviousSetUpdate/${student.studentName}`, { exerciseSet });
+    const response = await axios.put(`http://localhost:8000/api/studentUpdate/${student.studentName}`, {student});
+  };
+
+  const handleNextExercise = async () => {
+    // What to return from map function
+    if(student.exerciseList.some(ex => ex.title === currentExercise.title)){
+      const response = await axios.put(`http://localhost:8000/api/updateFinishedExercise/${student.studentName}`, currentExercise)
+      // student.exerciseList.map((ex) => {
+      //   if (ex.title === currentExercise.title){
+      //     ex.playCount++;
+      //     ex.assessment = 4;
+      //   }
+      // })
+    }
+    else {
+      student.exerciseList.push({'title': currentExercise.title,
+                                'playCount': 1,
+                                'assessment': 3})
+    };
+
     if (count < thisSet.length - 1) {
       setCount(count + 1);
       setExerciseCount(exerciseCount + 1)
@@ -222,61 +263,41 @@ export function StudentPracticePage() {
     }
     else {
       setCurrentRound(currentRound + 1);
+      shuffleSet()
       setCount(0);
       setCurrentExercise(thisSet[0]);
       setExerciseCount(exerciseCount + 1)
     };
+
   }
-    // else{
-    //     set = student.previousSet
-    // }    
-    // if (student.PreviousSet()){
-        
-    // }
-    // else{
-    //     // get the new exercise
-    //     // place the new exercise in the set list to replace the same category of exercise.
-    //     // update the remaining reviewexercises
-    //     let nextProgramExercise = this.chooseNewExercise();
-    //     for (let i=1; i < this.__student.getPreviousSet; i++){
-    //         if (this.__student.getPreviousSet[i].patternType === nextProgramExercise.patternType){
-    //             set[i] = nextProgramExercise;
-    //         }
-    //         else {
-    //             set[i] = this.chooseReviewExercise(this.__student.getPreviousSet[i])
-    //         }
-    //     }
-    // };
 
 
 const chooseReviewExercise = (previousExercise) => {
-    let m = this.__student.getStudentExerciseList().assessment.min();
-    let possibleExercises = this.__student.getStudentExercises.filter((x) => x.assessment <= m)
+    let m = Math.min(...student.exerciseList.map(ex => ex.playCount));
+    let possibleExercises = student.exerciseList.filter((x) => x.assessment <= m)
                             .filter((x) => x.patternType === previousExercise.patternType);
     return possibleExercises[Math.floor(Math.random) % possibleExercises.length - 1];
 };
 
 const chooseNewExercise = () => {
-    if (this.__student.getCurrentProgramIndex < this.__student.getProgram.length){
-        this.__student.setProgramIndex(this.student.getCurrentProgramIndex++);
-        return this.__student.getProgram[this.__student.getCurrentProgramIndex()];
+    if (student.program.currentIndex < program.exerciseSequence.length){
+        student.program.currentIndex++;
+        return program.exerciseSequence[student.program.currentIndex];
     }        
 };
 // Fisher-Yates algorithm array shuffling algorithm.
 const shuffleSet = () => {
-    let exercises = this.__setExercises
+    let exercises = thisSet
     for(let i=exercises.length -1; i > 0; i--){
     let j = Math.floor(Math.random() * (i+1))
     let temp = exercises[i];
     exercises[i] = exercises[j];
     exercises[j]=temp;
     }
-    this.__setExercises = exercises
-}
+    setThisSet(exercises);
+};
 
   if(currentExercise && currentRound < rounds){
-    // if(student.previousSet)
-    // buildSet();
     return(
       <>
         <Navigation />
@@ -288,6 +309,8 @@ const shuffleSet = () => {
       </>
     )
     }else if (currentRound === rounds) {
+      setCurrentRound(0)
+      updateStudent();
       return (
         <div>
           <Navigation />
