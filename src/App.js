@@ -196,6 +196,7 @@ export function StudentPracticePage() {
 
   // Create a set for the student
   useEffect(() => {
+    
     if (student && program){
       let exerciseSet =[];
       let previousSet = student.previousSet;
@@ -227,11 +228,11 @@ export function StudentPracticePage() {
                 }
                 
             }
-        }
-        setThisSet(exerciseSet);
-        setCurrentExercise(exerciseSet[0]);
+        }       
       };
-    };
+      setThisSet(exerciseSet);
+      setCurrentExercise(exerciseSet[0]);
+    };  
   }, [student, program, setLength]);
 
   const updateStudent = async () =>{
@@ -251,9 +252,10 @@ export function StudentPracticePage() {
       // })
     }
     else {
-      student.exerciseList.push({'title': currentExercise.title,
-                                'playCount': 1,
-                                'assessment': 3})
+      const response = await axios.put(`http://localhost:8000/api/addNewFinishedExercise/${student.studentName}`, currentExercise)
+      // student.exerciseList.push({'title': currentExercise.title,
+      //                           'playCount': 1,
+      //                           'assessment': 3})
     };
 
     if (count < thisSet.length - 1) {
