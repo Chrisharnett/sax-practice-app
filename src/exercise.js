@@ -82,7 +82,7 @@ export function Routines({ studentRoutines }) {
     );
   }
   
-function Exercise( props ) {
+export function Exercise( props ) {
     return (
         <>
             <h4>{ props.title }</h4>

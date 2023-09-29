@@ -1,0 +1,38 @@
+[
+  {
+    "studentName": "Donovan",
+    "program": {
+      "programId": 0,
+      "programName": "Scale1",
+      "programKey": "g",
+      "programMode": "major",
+      "currentIndex": 0
+    },
+    "exerciseList": [],
+    "previousSet": []
+  },
+  {
+    "studentName": "Claire",
+    "program": {
+      "programId": 0,
+      "programName": "Scale1",
+      "programKey": "g",
+      "programMode": "major",
+      "currentIndex": 0
+    },
+    "exerciseList": [],
+    "previousSet": []
+  },
+  {
+    "studentName": "Kieran",
+    "program": {
+      "programId": 0,
+      "programName": "Scale1",
+      "programKey": "g",
+      "programMode": "major",
+      "currentIndex": 0
+    },
+    "exerciseList": [],
+    "previousSet": []
+  }
+]
