@@ -13,6 +13,7 @@ import axios from 'axios';
 // let directJSON = 'https://mysaxpracticeexercisebucket.s3.amazonaws.com/exerciseJSON.json'
 // let localJSON = 'exerciseJSON.json'
 
+// TODO: Fix teacher page to get rid of this.
 let studentRoutines=[];
 const storedData = localStorage.getItem("studentRoutines");
 if (storedData) {
@@ -55,109 +56,110 @@ function Navigation() {
   );
 };
 
-export function Student() {
-  const location = useLocation();
-  const { currentStudent } = location.state;
-  const [routine, setRoutine] = useState(null);
-  // TODO: Set number of rounds in student sign-in and teacher page.
-  const [rounds, setRounds] = useState(4);
-  const [currentRound, setCurrentRounds]= useState(1);
-  const [count, setCount] = useState(0);
-  const [currentExercise, setCurrentExercise] = useState(null);
-  const [exerciseCount, setExerciseCount] = useState(1);
-  const [practiceSet, setPracticeSet] = useState(null);
-  const [program, setProgram] = useState(null);
+// export function Student() {
+//   const location = useLocation();
+//   const { currentStudent } = location.state;
+//   const [routine, setRoutine] = useState(null);
+//   // TODO: Set number of rounds in student sign-in and teacher page.
+//   const [rounds, setRounds] = useState(4);
+//   const [currentRound, setCurrentRounds]= useState(1);
+//   const [count, setCount] = useState(0);
+//   const [currentExercise, setCurrentExercise] = useState(null);
+//   const [exerciseCount, setExerciseCount] = useState(1);
+//   const [practiceSet, setPracticeSet] = useState(null);
+//   const [program, setProgram] = useState(null);
 
   
-  // Randomize a round of exercises with Fisher-Yates algorithm.
-  // TODO: Add logic to prevent the same exercise happening twice in a row.
-  const shuffleExercises = (exercises) => {
-    for(let i=exercises.length -1; i > 0; i--){
-      let j = Math.floor(Math.random() * (i+1))
-      let temp = exercises[i];
-      exercises[i] = exercises[j];
-      exercises[j]=temp;
-    }
-    return exercises
-  }
-  useEffect(() => {
-    const studentRoutine = studentRoutines.find((r) =>r.student === currentStudent);
-    if (studentRoutine) {
-      setRoutine(studentRoutine.routine);
-      setCurrentExercise(studentRoutine.routine[0]);
-    }
-  }, [currentStudent]);
+//   // Randomize a round of exercises with Fisher-Yates algorithm.
+//   // TODO: Add logic to prevent the same exercise happening twice in a row.
+//   const shuffleExercises = (exercises) => {
+//     for(let i=exercises.length -1; i > 0; i--){
+//       let j = Math.floor(Math.random() * (i+1))
+//       let temp = exercises[i];
+//       exercises[i] = exercises[j];
+//       exercises[j]=temp;
+//     }
+//     return exercises
+//   }
+//   useEffect(() => {
+//     const studentRoutine = studentRoutines.find((r) =>r.student === currentStudent);
+//     if (studentRoutine) {
+//       setRoutine(studentRoutine.routine);
+//       setCurrentExercise(studentRoutine.routine[0]);
+//     }
+//   }, [currentStudent]);
   
-  useEffect(() => {
-    if (routine && currentRound < rounds){
-      let thisRound = [];
-      if (currentRound === 0){
-        thisRound = routine;
-      } else {
-        for (let i=0; i < routine.length; i++){
-          thisRound.push(routine[i]);
-        }
-        thisRound = shuffleExercises(thisRound);
-        // Set the routine only if it is different.
-        if (arraysAreEqual(routine, thisRound)){
-          setRoutine(thisRound);
-        };
+//   useEffect(() => {
+//     if (routine && currentRound < rounds){
+//       let thisRound = [];
+//       if (currentRound === 0){
+//         thisRound = routine;
+//       } else {
+//         for (let i=0; i < routine.length; i++){
+//           thisRound.push(routine[i]);
+//         }
+//         thisRound = shuffleExercises(thisRound);
+//         // Set the routine only if it is different.
+//         if (arraysAreEqual(routine, thisRound)){
+//           setRoutine(thisRound);
+//         };
         
-      }
-  }}, [routine, count, rounds, currentRound]);
+//       }
+//   }}, [routine, count, rounds, currentRound]);
 
-  function arraysAreEqual(routine1, routine2) {
-    if (routine1.length !== routine2.length){
-      return false;
-    };
-    for (let i = 0; i < routine1.length; i++){
-      if (routine1[i] !== routine2[i]){
-        return false;
-      };
-      return true
-    }
-  }
+//   function arraysAreEqual(routine1, routine2) {
+//     if (routine1.length !== routine2.length){
+//       return false;
+//     };
+//     for (let i = 0; i < routine1.length; i++){
+//       if (routine1[i] !== routine2[i]){
+//         return false;
+//       };
+//       return true
+//     }
+//   }
 
-  const handleNextExercise = () => {
-    if (count < routine.length - 1) {
-      setCount(count + 1);
-      setExerciseCount(exerciseCount + 1)
-      setCurrentExercise(routine[count + 1]);
-    }
-    else {
-      setCurrentRounds(currentRound + 1);
-      setCount(0);
-      setCurrentExercise(routine[0]);
-      setExerciseCount(exerciseCount + 1)
-    };
-  }
-    if (routine && currentRound < rounds) {
-      if (routine){
-        return (
-          <div>
-            <h1>{ currentStudent }'s exercise page</h1>
-            <h2>Exercise { exerciseCount } of { routine.length * rounds }</h2>
-            {currentExercise && (
-              <div>
-                <CurrentExercise exercise={ currentExercise } />
-                <button onClick={handleNextExercise} className="btn btn-primary">Next Exercise</button>
-              </div>
-            )}
+//   const handleNextExercise = () => {
+//     if (count < routine.length - 1) {
+//       setCount(count + 1);
+//       setExerciseCount(exerciseCount + 1)
+//       setCurrentExercise(routine[count + 1]);
+//     }
+//     else {
+//       setCurrentRounds(currentRound + 1);
+//       setCount(0);
+//       setCurrentExercise(routine[0]);
+//       setExerciseCount(exerciseCount + 1)
+//     };
+//   }
+//     if (routine && currentRound < rounds) {
+//       if (routine){
+//         return (
+//           <div>
+//             <h1>{ currentStudent }'s exercise page</h1>
+//             <h2>Exercise { exerciseCount } of { routine.length * rounds }</h2>
+//             {currentExercise && (
+//               <div>
+//                 <CurrentExercise exercise={ currentExercise } />
+//                 <button onClick={handleNextExercise} className="btn btn-primary">Next Exercise</button>
+//               </div>
+//             )}
             
-          </div>
-        );
-      } 
-    };    
-    if (currentRound === rounds) {
-      return (
-        <div>
-          <Navigation />
-          <h1>Great job, today's routine is complete</h1>
-        </div>
-      )
-    }
-};
+//           </div>
+//         );
+//       } 
+//     };    
+//     if (currentRound === rounds) {
+//       return (
+//         <div>
+//           <Navigation />
+//           <h1>Great job, today's routine is complete</h1>
+//         </div>
+//       )
+//     }
+// };
 
+// TODO: improve set building algorithm.
 export function StudentPracticePage() {
   const { studentName } = useParams()
   const [student, setStudent]  = useState(null);
@@ -307,9 +309,7 @@ const shuffleSet = () => {
       )
     }
 };
-  
 
-// TODO: Create student file?
 export function StudentSignIn() {
   const [studentList, setStudentList] = useState(null)
   const [currentStudent, setCurrentStudent] = useState(undefined)
@@ -355,17 +355,18 @@ export function StudentSignIn() {
   };
 
 export function Teacher() {
-  const [data, setData] = useState(null);
+  const [exercises, setExercises] = useState(null);
   const [student, setStudent] = useState("");
   const [currentStudent, setCurrentStudent] = useState("Horatio")
   const [routine, setRoutine] = useState(null);
   const [routines, setRoutines] = useState(studentRoutines);
 
   useEffect(() => {
-     fetch(
-      'exerciseJSON.json'
-    ).then(response => response.json())
-    .then(setData);
+     const getExercises = async () =>{
+      let response = await axios.get(`http://localhost:8000/api/getExercises`);
+      setExercises(response.data);
+     };
+     getExercises()
   }, []);
 
     useEffect(() => {
@@ -376,7 +377,7 @@ export function Teacher() {
     const createRoutine = (newRoutine) => {
       let exList = [];
       for (let i of newRoutine){  
-        exList.push(data[i.index]);
+        exList.push(exercises[i.index]);
       }
       setRoutine(exList);
       let updatedRoutines = [...routines, { student, routine: exList }];    
@@ -408,7 +409,7 @@ export function Teacher() {
     setCurrentStudent(event.target.value);
   };
 
-  if(data) 
+  if(exercises) 
     return (
       <div>
         <Navigation />
@@ -445,7 +446,7 @@ export function Teacher() {
                 </input>
               </div>          
               <div id="exerciseSelector">
-                <ExSelection exList={ data } routineList = { createRoutine } />
+                <ExSelection exList={ exercises } routineList = { createRoutine } />
               </div>
             </Form>
           </Container>          
@@ -458,10 +459,11 @@ export function Teacher() {
 export function Exercises() {
   const [exercises, setExercises] = useState(null)
     useEffect(() => {
-      fetch(
-      'exerciseJSON.json'
-    ).then(response => response.json())
-    .then(setExercises);
+      const getExercises = async () =>{
+        let response = await axios.get(`http://localhost:8000/api/getExercises`);
+        setExercises(response.data);
+       };
+      getExercises()
     }, []);
     if (exercises)
       return (
