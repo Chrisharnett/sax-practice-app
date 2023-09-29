@@ -9,7 +9,6 @@ import { useState, useEffect} from 'react';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CurrentExercise, ExSelection, ExerciseList } from './exercise';
 import axios from 'axios';
-import PracticeSet from './setBuilder';
 
 // let directJSON = 'https://mysaxpracticeexercisebucket.s3.amazonaws.com/exerciseJSON.json'
 // let localJSON = 'exerciseJSON.json'
@@ -62,7 +61,7 @@ export function Student() {
   const [routine, setRoutine] = useState(null);
   // TODO: Set number of rounds in student sign-in and teacher page.
   const [rounds, setRounds] = useState(4);
-  const [currentRound, setCurrentRounds]= useState(0);
+  const [currentRound, setCurrentRounds]= useState(1);
   const [count, setCount] = useState(0);
   const [currentExercise, setCurrentExercise] = useState(null);
   const [exerciseCount, setExerciseCount] = useState(1);
@@ -214,8 +213,9 @@ export function StudentPracticePage() {
         let nextProgramExercise = chooseNewExercise();
         // Replace the same patternType in the old exercise
         for (let i=1; i < previousSet.length; i++){
-            if (previousSet[i].patternType === nextProgramExercise.patternType){
-                exerciseSet[i] = nextProgramExercise;
+            if (previousSet[i].patternType === nextProgramExercise.patternType && 
+              !exerciseSet.includes(nextProgramExercise)){
+              exerciseSet[i] = nextProgramExercise;
             }
             else {
               // Choose appropriate review exercises for other exercises
@@ -228,36 +228,25 @@ export function StudentPracticePage() {
                 }
                 
             }
-        }       
-      };
+          }       
+        };
       setThisSet(exerciseSet);
       setCurrentExercise(exerciseSet[0]);
+      updateStudent();
     };  
   }, [student, program, setLength]);
 
   const updateStudent = async () =>{
-    // const response = await axios.put(`http://localhost:8000/api/studentPreviousSetUpdate/${student.studentName}`, { exerciseSet });
-    const response = await axios.put(`http://localhost:8000/api/studentUpdate/${student.studentName}`, {student});
+    const response = await axios.put(`http://localhost:8000/api/studentUpdate/${student.studentName}`, { student });
   };
 
-  const handleNextExercise = async () => {
-    // What to return from map function
-    if(student.exerciseList.some(ex => ex.title === currentExercise.title)){
-      const response = await axios.put(`http://localhost:8000/api/updateFinishedExercise/${student.studentName}`, currentExercise)
-      // student.exerciseList.map((ex) => {
-      //   if (ex.title === currentExercise.title){
-      //     ex.playCount++;
-      //     ex.assessment = 4;
-      //   }
-      // })
-    }
-    else {
-      const response = await axios.put(`http://localhost:8000/api/addNewFinishedExercise/${student.studentName}`, currentExercise)
-      // student.exerciseList.push({'title': currentExercise.title,
-      //                           'playCount': 1,
-      //                           'assessment': 3})
-    };
+  const studentExerciseUpdate = async () => {
+    let response = await axios.put(`http://localhost:8000/api/updateExerciseList/${student.studentName}`, { currentExercise });
+  };
 
+  const handleNextExercise = () => {  
+    studentExerciseUpdate()
+    
     if (count < thisSet.length - 1) {
       setCount(count + 1);
       setExerciseCount(exerciseCount + 1)
@@ -268,9 +257,8 @@ export function StudentPracticePage() {
       shuffleSet()
       setCount(0);
       setCurrentExercise(thisSet[0]);
-      setExerciseCount(exerciseCount + 1)
+      setExerciseCount(exerciseCount + 1);
     };
-
   }
 
 
@@ -311,8 +299,6 @@ const shuffleSet = () => {
       </>
     )
     }else if (currentRound === rounds) {
-      setCurrentRound(0)
-      updateStudent();
       return (
         <div>
           <Navigation />
