@@ -28,13 +28,16 @@ export function ExerciseList({ exList }) {
   });
 }
 
-export function ExSelection({ exList, programList }) {
+export function ExSelection({ exList, onNewProgramSequenceChange }) {
   const [checked, setChecked] = useState([]);
   const [patternTypes, setPatternTypes] = useState(null);
-  const [keys, setKeys] = useState(null);
-  const [modes, setModes] = useState(null);
-  const [sampleExercises, setSampleExercises] = useState(null);
-  const [newProgramExercises, setNewProgramExercises] = useState(null);
+  const [uniqueKeys, setUniqueKeys] = useState([]);
+  const [uniqueModes, setUniqueModes] = useState([]);
+  const [keys, setKeys] = useState(["g"]);
+  const [modes, setModes] = useState(["major"]);
+  const [sampleExercises, setSampleExercises] = useState([]);
+  const [newProgramSequence, setNewProgramSequence] = useState([]);
+  const [selectedExercises, setSelectedExercises] = useState([]);
 
   useEffect(() => {
     if (exList) {
@@ -43,53 +46,93 @@ export function ExSelection({ exList, programList }) {
         return exercise.patternType;
       });
       const uniquePatternTypes = [...new Set(types)];
-      setPatternTypes(uniquePatternTypes);
 
       // Get unique keys
       const keys = exList.map((ex) => {
         return ex.key;
       });
-      const uniqueKeys = [...new Set(keys)];
-      setKeys(uniqueKeys);
+      const uKeys = [...new Set(keys)];
 
       //Get unique modes
       const modes = exList.map((ex) => {
         return ex.mode;
       });
-      const uniqueModes = [...new Set(modes)];
-      setModes(uniqueModes);
+      const uModes = [...new Set(modes)];
 
-      // Get Sample exercises
+      setPatternTypes(uniquePatternTypes);
+      setUniqueKeys(uKeys);
+      setUniqueModes(uModes);
+    }
+  }, [exList]);
+
+  useEffect(() => {
+    if (exList && patternTypes) {
+      const filteredExercises = exList.filter((ex) => {
+        return ex.key === "g" && ex.mode === "major";
+      });
+      setSampleExercises(filteredExercises);
+    }
+  }, [exList, patternTypes]);
+
+  const handleCheck = (event, exercise) => {
+    const exerciseId = exercise.exerciseId;
+    const isChecked = event.target.checked;
+
+    const newSelectedExercises = { ...selectedExercises };
+    const newKeys = { ...keys };
+    const newModes = { ...modes };
+
+    if (isChecked) {
+      newKeys[exerciseId] = exercise.key;
+      newModes[exerciseId] = exercise.mode;
+    } else {
+      delete newKeys[exerciseId];
+      delete newModes[exerciseId];
+    }
+
+    newSelectedExercises[exerciseId] = exercise;
+
+    setSelectedExercises(newSelectedExercises);
+    setKeys(newKeys);
+    setModes(newModes);
+
+    if (isChecked) {
+      setChecked([...checked, exercise]);
+    } else {
+      const updatedChecked = checked.filter(
+        (ex) => ex.exerciseId !== exerciseId
+      );
+      setChecked(updatedChecked);
+    }
+  };
+
+  useEffect(() => {
+    if (checked.length > 0) {
+      const updatedProgramSequence = Object.values(keys).map((key, index) => ({
+        patternId: checked[index].patternId,
+        key: key,
+        mode: modes[checked[index].exerciseId],
+      }));
+      setNewProgramSequence(updatedProgramSequence);
+    }
+  }, [checked, keys, modes]);
+
+  useEffect(() => {
+    onNewProgramSequenceChange(newProgramSequence);
+  }, [newProgramSequence, onNewProgramSequenceChange]);
+
+  const isChecked = (exerciseId) =>
+    Boolean(keys[exerciseId]) && Boolean(modes[exerciseId])
+      ? "checked-item"
+      : "not-checked-item";
+
+  const handlePatternFilter = (pType) => {
+    if (pType === "all") {
       setSampleExercises(
         exList.filter((ex) => {
           return ex.key === "g" && ex.mode === "major";
         })
       );
-    }
-  }, [exList]);
-
-  const handleCheck = (event) => {
-    let updatedList = [...checked];
-    if (event.target.checked) {
-      updatedList = [
-        ...checked,
-        {
-          index: event.target.value,
-          title: event.target.name,
-          imageURL: event.target.id,
-        },
-      ];
-    } else {
-      updatedList.splice(checked.indexOf(event.target.value), 1);
-    }
-    setChecked(updatedList);
-  };
-
-  const isChecked = (item) =>
-    checked.includes(item) ? "checked-item" : "not-checked-item";
-
-  const handlePatternFilter = (pType) => {
-    if (pType === "all") {
     } else {
       let filteredExercises = exList.filter((ex) => {
         return ex.patternType === pType;
@@ -98,36 +141,41 @@ export function ExSelection({ exList, programList }) {
     }
   };
 
-  const handleExerciseSelection = (selectedExercise) => {
-    setNewProgramExercises([...newProgramExercises, selectedExercise]);
+  const handleKeyChange = (event, exerciseId) => {
+    const newKeys = [...keys];
+    newKeys[exerciseId] = event.target.value;
+    setKeys(newKeys);
+  };
+
+  const handleModeChange = (event, exerciseId) => {
+    const newModes = [...modes];
+    newModes[exerciseId] = event.target.value;
+    setModes(newModes);
   };
 
   if (patternTypes && keys && modes && sampleExercises) {
     return (
       <div className="checkList">
-        <button
-          onClick={() => {
-            programList(checked);
-          }}
-          className="btn btn-primary m-3"
-        >
-          Create Program
-        </button>
-        {/* Have the exercise image move into the new routine list as selected */}
         <h3>Selected Exercises</h3>
         <div className="d-inline-flex">
-          {checked.map((ex, index) => (
-            <div id={index} key={index} className="m-3">
+          {Object.values(selectedExercises).map((ex, index) => (
+            <div id={ex.exerciseId} key={index} className="m-3">
               <p>
                 {index + 1}. {ex.exerciseName}
               </p>
               <img src={ex.imageURL} alt={ex.exerciseName} height={35} />
               <p>Key</p>
-              <select title="Exercise Key">
+              <select
+                title="Exercise Key"
+                value={keys[ex.exerciseId] || ""}
+                onChange={(event) => {
+                  handleKeyChange(event, index);
+                }}
+              >
                 {" "}
-                {keys.map((key, index) => {
+                {uniqueKeys.map((key, keyIndex) => {
                   return (
-                    <option id={index} key={key}>
+                    <option key={keyIndex} id={keyIndex} value={key}>
                       {" "}
                       {key}
                     </option>
@@ -135,10 +183,16 @@ export function ExSelection({ exList, programList }) {
                 })}
               </select>
               <p>Mode</p>
-              <select title="Exercise Mode">
-                {modes.map((mode, index) => {
+              <select
+                title="Exercise Mode"
+                value={modes[ex.exerciseId] || ""}
+                onChange={(event) => {
+                  handleModeChange(event, ex.exerciseId);
+                }}
+              >
+                {uniqueModes.map((mode, modeIndex) => {
                   return (
-                    <option id={index} key={mode}>
+                    <option id={modeIndex} key={modeIndex} value={mode}>
                       {" "}
                       {mode.replace("_", " ")}
                     </option>
@@ -152,27 +206,22 @@ export function ExSelection({ exList, programList }) {
         <Container className="inline">
           <h3>Exercise List</h3>
           <h4>Filter</h4>
-          <DropdownButton variant="success" title="Pattern Type">
-            {/* <Dropdown.item
-              id={"-1"}
-              key={"all"}
-              onClick={() => handlePatternFilter("all")}
-            >
-              Clear Filter
-            </Dropdown.item> */}
+          <select
+            id="patternFilter"
+            variant="success"
+            title="Pattern Type"
+            onChange={(event) => handlePatternFilter(event.target.value)}
+          >
+            <option value="all">Show All</option>
             {patternTypes.map((patternType, index) => {
               return (
-                <Dropdown.Item
-                  id={index}
-                  key={patternType}
-                  onClick={() => handlePatternFilter(patternType)}
-                >
+                <option id={index} key={patternType}>
                   {" "}
                   {patternType}
-                </Dropdown.Item>
+                </option>
               );
             })}
-          </DropdownButton>
+          </select>
         </Container>
         <div>
           {sampleExercises.map((ex, index) => (
@@ -182,9 +231,12 @@ export function ExSelection({ exList, programList }) {
                 value={index}
                 name={ex.exerciseName}
                 type="checkbox"
-                onChange={handleCheck}
+                onChange={(event) => handleCheck(event, ex)}
+                checked={
+                  Boolean(keys[ex.exerciseId]) && Boolean(modes[ex.exerciseId])
+                }
               />
-              <h4 className={isChecked(ex.exerciseName)}>{ex.exerciseName} </h4>
+              <h4 className={isChecked(ex.exerciseId)}>{ex.exerciseName} </h4>
               <img src={ex.imageURL} alt={ex.description} height={50}></img>
             </div>
           ))}

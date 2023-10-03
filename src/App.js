@@ -56,13 +56,15 @@ export function StudentPracticePage() {
   const [program, setProgram] = useState(null);
   const [thisSet, setThisSet] = useState(null);
   const [rounds, setRounds] = useState(2);
+  // This is a feature I hope to implement later
   const [maxNew, setMaxNew] = useState(1);
   const [setLength, setSetLength] = useState(4);
   const [count, setCount] = useState(0);
   const [exerciseCount, setExerciseCount] = useState(1);
   const [currentRound, setCurrentRound] = useState(0);
+  const [exercises, setExercises] = useState(null);
 
-  // Load the current student
+  // Load the current student & exercises
   useEffect(() => {
     const loadStudentInfo = async () => {
       const response = await axios.get(
@@ -73,27 +75,35 @@ export function StudentPracticePage() {
     loadStudentInfo();
   }, []);
 
+  useEffect(() => {
+    const getExercises = async () => {
+      let response = await axios.get(`http://localhost:8000/api/getExercises`);
+      setExercises(response.data);
+    };
+    getExercises();
+  }, []);
+
   // Get the current program the student is studying.
   useEffect(() => {
     const getSetReady = async () => {
-      if (student) {
+      if (student && exercises) {
         if (student.program) {
           const studentProgram = await axios.get(
-            `http://localhost:8000/api/programs/${student.program.programId}`
+            `http://localhost:8000/api/programs/${student.program.programName}`
           );
           setProgram(studentProgram.data);
         }
       }
     };
     getSetReady();
-  }, [student]);
+  }, [student, exercises]);
 
   // Create a set for the student
   useEffect(() => {
     if (student && program) {
       let exerciseSet = [];
       let previousSet = student.previousSet;
-      if (previousSet.length === 0) {
+      if (!previousSet || previousSet.length === 0) {
         for (let i = 0; i < setLength; i++) {
           exerciseSet.push(program.exerciseSequence[i]);
         }
@@ -123,7 +133,7 @@ export function StudentPracticePage() {
         }
       }
       setThisSet(exerciseSet);
-      setCurrentExercise(exerciseSet[0]);
+      setCurrentExercise(exercises[exerciseSet[0]]);
       updateStudent();
     }
   }, [student, program, setLength]);
@@ -148,12 +158,12 @@ export function StudentPracticePage() {
     if (count < thisSet.length - 1) {
       setCount(count + 1);
       setExerciseCount(exerciseCount + 1);
-      setCurrentExercise(thisSet[count + 1]);
+      setCurrentExercise(exercises[thisSet[count + 1]]);
     } else {
       setCurrentRound(currentRound + 1);
       shuffleSet();
       setCount(0);
-      setCurrentExercise(thisSet[0]);
+      setCurrentExercise(exercises[thisSet[0]]);
       setExerciseCount(exerciseCount + 1);
     }
   };
@@ -268,11 +278,9 @@ export function StudentSignIn() {
 
 export function Teacher() {
   const [exercises, setExercises] = useState(null);
-  const [student, setStudent] = useState("");
-  const [currentStudent, setCurrentStudent] = useState("Horatio");
-  const [routine, setRoutine] = useState(null);
-  // const [routines, setRoutines] = useState(studentRoutines);
   const [programs, setPrograms] = useState(null);
+  const [newStudentName, setNewStudentName] = useState("");
+  const [newStudentProgram, setNewStudentProgram] = useState(null);
   const [newProgramName, setNewProgramName] = useState("");
   const [newProgramGoal, setNewProgramGoal] = useState("");
   const [newProgramSequence, setNewProgramSequence] = useState([]);
@@ -290,47 +298,54 @@ export function Teacher() {
     getPrograms();
   }, []);
 
-  // useEffect(() => {
-  //   setRoutines(studentRoutines);
-  // }, []);
-
   // TODO: Set number of rounds in student sign-in and teacher page.
-  const createProgram = (newRoutine) => {
-    let exList = [];
-    for (let i of newRoutine) {
-      exList.push(exercises[i.index]);
+  const handleCreateProgram = async () => {
+    const exerciseSequence = [];
+    for (let exercise of newProgramSequence) {
+      for (let e of exercises) {
+        if (
+          e.patternId === exercise.patternId &&
+          e.key === exercise.key &&
+          e.mode === exercise.mode
+        ) {
+          exerciseSequence.push(e.exerciseId);
+        }
+      }
     }
-    setRoutine(exList);
-    // let updatedRoutines = [...routines, { student, routine: exList }];
-    // studentRoutines = updatedRoutines;
-    // localStorage.setItem('studentRoutines', JSON.stringify(studentRoutines));
-    // setRoutines(updatedRoutines);
-    submit();
+
+    const newProgram = {
+      programName: newProgramName,
+      goal: newProgramGoal,
+      exerciseSequence: exerciseSequence,
+    };
+
+    let response = await axios.post(
+      `http://localhost:8000/api/addNewProgram/`,
+      {
+        newProgram,
+      }
+    );
+    console.log(response);
   };
 
-  const clearRoutine = () => {
-    // let updatedRoutines = routines.filter((routine) => {
-    //   return routine.student !== currentStudent;
-    // }
-    // );
-    // setRoutines(updatedRoutines)
-    // studentRoutines = updatedRoutines
-    // localStorage.setItem('studentRoutines', JSON.stringify(studentRoutines));
+  const handleProgramSequenceChange = (newProgramSequence) => {
+    setNewProgramSequence(newProgramSequence);
   };
 
-  const submit = (e) => {
-    if (student && routine) {
-      setStudent("");
-      setRoutine(null);
+  const handleNewStudent = async () => {
+    if (newStudentName && newStudentProgram) {
+      let newStudent = {
+        studentName: newStudentName,
+        program: {
+          programId: 0,
+          programName: newStudentProgram,
+          currentIndex: 0,
+        },
+        exerciseList: [],
+        previousSet: [],
+      };
+      let response = await axios.put(`/api/addStudent/`, { newStudent });
     }
-  };
-
-  const handleNewStudent = () => {
-    console.log("New Student");
-  };
-
-  const handleStudentChange = (event) => {
-    setCurrentStudent(event.target.value);
   };
 
   if (exercises && programs)
@@ -345,23 +360,28 @@ export function Teacher() {
               id="studentName"
               type="text"
               placeholder="Student Name"
+              onChange={(e) => setNewStudentName(e.target.value)}
             ></Form.Control>
             <h3>Choose a student program</h3>
-            <Dropdown>
-              <DropdownButton variant="success" title="Practice Programs">
-                {programs.map((program, index) => {
-                  return (
-                    <Dropdown.Item
-                      id={program.programId}
-                      key={program.programId}
-                    >
-                      {" "}
-                      {program.programName}
-                    </Dropdown.Item>
-                  );
-                })}
-              </DropdownButton>
-            </Dropdown>
+            <select
+              id="newStudentProgramSelector"
+              variant="success"
+              title="Practice Programs"
+              onChange={(e) => setNewStudentProgram(e.target.value)}
+            >
+              <option key={-1} id=""></option>
+              {programs.map((program, index) => {
+                return (
+                  <option id={program.programId} key={index}>
+                    {" "}
+                    {program.programName}
+                  </option>
+                );
+              })}
+            </select>
+            <Button variant="success" onClick={handleNewStudent}>
+              Create Student
+            </Button>
           </Form>
         </Container>
         <hr></hr>
@@ -373,24 +393,32 @@ export function Teacher() {
             dropdown menu.
           </p>
           <Container>
-            <Form onSubmit={submit}>
+            <Form onSubmit={handleCreateProgram}>
               <Container></Container>
               <div className="inline">
                 <input
-                  value={""}
                   type="text"
                   placeholder="Program Name"
+                  value={newProgramName}
                   id="programName"
+                  onChange={(e) => setNewProgramName(e.target.value)}
                 ></input>
                 <input
-                  value={""}
                   type="text"
                   placeholder="Program Goal"
                   id="programGoal"
+                  value={newProgramGoal}
+                  onChange={(e) => setNewProgramGoal(e.target.value)}
                 ></input>
+                <Button onClick={handleCreateProgram} variant="success">
+                  Create Program
+                </Button>
               </div>
               <div id="exerciseSelector">
-                <ExSelection exList={exercises} routineList={createProgram} />
+                <ExSelection
+                  exList={exercises}
+                  onNewProgramSequenceChange={handleProgramSequenceChange}
+                />
               </div>
             </Form>
           </Container>
@@ -421,105 +449,3 @@ export function Exercises() {
 export function App() {
   return <Home />;
 }
-
-// export function Student() {
-//   const location = useLocation();
-//   const { currentStudent } = location.state;
-//   const [routine, setRoutine] = useState(null);
-//   // TODO: Set number of rounds in student sign-in and teacher page.
-//   const [rounds, setRounds] = useState(4);
-//   const [currentRound, setCurrentRounds]= useState(1);
-//   const [count, setCount] = useState(0);
-//   const [currentExercise, setCurrentExercise] = useState(null);
-//   const [exerciseCount, setExerciseCount] = useState(1);
-//   const [practiceSet, setPracticeSet] = useState(null);
-//   const [program, setProgram] = useState(null);
-
-//   // Randomize a round of exercises with Fisher-Yates algorithm.
-//   // TODO: Add logic to prevent the same exercise happening twice in a row.
-//   const shuffleExercises = (exercises) => {
-//     for(let i=exercises.length -1; i > 0; i--){
-//       let j = Math.floor(Math.random() * (i+1))
-//       let temp = exercises[i];
-//       exercises[i] = exercises[j];
-//       exercises[j]=temp;
-//     }
-//     return exercises
-//   }
-//   useEffect(() => {
-//     const studentRoutine = studentRoutines.find((r) =>r.student === currentStudent);
-//     if (studentRoutine) {
-//       setRoutine(studentRoutine.routine);
-//       setCurrentExercise(studentRoutine.routine[0]);
-//     }
-//   }, [currentStudent]);
-
-//   useEffect(() => {
-//     if (routine && currentRound < rounds){
-//       let thisRound = [];
-//       if (currentRound === 0){
-//         thisRound = routine;
-//       } else {
-//         for (let i=0; i < routine.length; i++){
-//           thisRound.push(routine[i]);
-//         }
-//         thisRound = shuffleExercises(thisRound);
-//         // Set the routine only if it is different.
-//         if (arraysAreEqual(routine, thisRound)){
-//           setRoutine(thisRound);
-//         };
-
-//       }
-//   }}, [routine, count, rounds, currentRound]);
-
-//   function arraysAreEqual(routine1, routine2) {
-//     if (routine1.length !== routine2.length){
-//       return false;
-//     };
-//     for (let i = 0; i < routine1.length; i++){
-//       if (routine1[i] !== routine2[i]){
-//         return false;
-//       };
-//       return true
-//     }
-//   }
-
-//   const handleNextExercise = () => {
-//     if (count < routine.length - 1) {
-//       setCount(count + 1);
-//       setExerciseCount(exerciseCount + 1)
-//       setCurrentExercise(routine[count + 1]);
-//     }
-//     else {
-//       setCurrentRounds(currentRound + 1);
-//       setCount(0);
-//       setCurrentExercise(routine[0]);
-//       setExerciseCount(exerciseCount + 1)
-//     };
-//   }
-//     if (routine && currentRound < rounds) {
-//       if (routine){
-//         return (
-//           <div>
-//             <h1>{ currentStudent }'s exercise page</h1>
-//             <h2>Exercise { exerciseCount } of { routine.length * rounds }</h2>
-//             {currentExercise && (
-//               <div>
-//                 <CurrentExercise exercise={ currentExercise } />
-//                 <button onClick={handleNextExercise} className="btn btn-primary">Next Exercise</button>
-//               </div>
-//             )}
-
-//           </div>
-//         );
-//       }
-//     };
-//     if (currentRound === rounds) {
-//       return (
-//         <div>
-//           <Navigation />
-//           <h1>Great job, today's routine is complete</h1>
-//         </div>
-//       )
-//     }
-// };
