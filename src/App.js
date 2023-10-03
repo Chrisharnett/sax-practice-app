@@ -231,9 +231,12 @@ export function StudentSignIn() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("students.json")
-      .then((response) => response.json())
-      .then(setStudentList);
+    const getStudents = async () => {
+      let response = await axios.get(`http://localhost:8000/api/getStudents`);
+      setStudentList(response.data);
+    };
+
+    getStudents();
   }, []);
 
   // TODO: Set number of rounds in student sign-in and teacher page.
